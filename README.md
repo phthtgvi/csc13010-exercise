@@ -147,7 +147,10 @@ To run the compiled program:
 
     The program will present a menu with options to add, delete, update, and search students. Student data will be saved in the `students.json` file in the same directory as the executable.
 
-## License
 
+## Convention
+The coding style is followed to the C++ coding standards. Use meaningful variable names, provide comments where necessary, and ensure the code is well-formatted.
+
+## License
 This project is licensed under the [MIT License](LICENSE). 
 
