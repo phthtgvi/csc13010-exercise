@@ -404,7 +404,35 @@ bool getUpdatedStudentInfoFromUser(Student* student, ConcreteStudentValidator* v
     return true;
 }
 
+std::pair<std::string, std::string> getVersionInfo(const std::string& filepath) {
+    std::ifstream file(filepath);
+    std::string version = "N/A";
+    std::string buildDate = "N/A";
+
+    if (file.is_open()) {
+        try {
+            json j;
+            file >> j;
+            version = j.value("version", "N/A");
+            buildDate = j.value("builtDate", "N/A");
+        } catch (const json::exception& e) {
+            std::cerr << "Error parsing version info from JSON file: " << e.what() << std::endl;
+        }
+        file.close();
+    } else {
+        std::cerr << "Could not open version info file: " << filepath << std::endl;
+    }
+
+    return {version, buildDate};
+}
+
 int main() {
+    auto [version, buildDate] = getVersionInfo("version_info.json");
+
+    std::cout << "Application Version: " << version << std::endl;
+    std::cout << "Build Date: " << buildDate << std::endl;
+    std::cout << "-------------------------" << std::endl;
+
     StudentRepository& repo = StudentRepository::getInstance();
     ConcreteStudentValidator* validator = new ConcreteStudentValidator();
 
