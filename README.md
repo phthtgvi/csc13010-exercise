@@ -19,10 +19,21 @@ This is a console-based Student Management System written in C++ that allows you
 
 The Student Management System provides the following functionalities:
 
+### v1.0
+
 - **Add New Student:** Allows adding a new student to the system with details such as ID, name, date of birth, gender, faculty, course, program, address, email, phone number, and status.
 - **Delete Student:** Removes a student from the system based on their Student ID.
 - **Update Student Information:** Updates the information of an existing student based on their Student ID.
 - **Search Student:** Searches for students by name or Student ID.
+
+### v2.0
+
+- **Data storage:** Using JSON for storing directly to local files.
+- **Advanced Search:** Allow search by Faculty filter.
+- **Import/export records:** Allow user to import records as CSV/JSON and vice versa.
+- **Logging mechanism:** System automatically logs any meaningful operations or errors for troubleshooting issues.
+- **Development build information:** Display build version and build date at the website footer.
+- **Dynamic attributes:** Such attributes like Faculty, Program, Status is allowed to be added or audited by administrator. The system will provide 5 Faculty entities, 4 Status entities and 3 Program entities by default
 
 All student data is stored in a JSON file (`students.json`) for persistence. The system performs data validation on email, phone number, faculty, and student status.
 
@@ -151,27 +162,59 @@ To run the compiled program:
 
 ## Screenshots
 
-### Menu
+### v1.0
+
+#### Menu
 
 ![ex-screenshot](screenshots/screen1.png)
 
-### Add a record
+#### Add a record
 
 ![ex-screenshot](screenshots/screen2.png)
 
-### Delete a record
+#### Delete a record
 
 ![ex-screenshot](screenshots/screen4.png)
 ![ex-screenshot](screenshots/screen5.png)
 
-### Edit a record
+#### Edit a record
 
 ![ex-screenshot](screenshots/screen6.png)
 ![ex-screenshot](screenshots/screen7.png)
 
-### Search a record
+#### Search a record
 
 ![ex-screenshot](screenshots/screen8.png)
+
+### v2.0
+
+#### Build information
+
+![ex-screenshot](screenshots/screen9.png)
+
+#### Logging mechanism
+
+![ex-screenshot](screenshots/screen10.png)
+
+#### Advanced search
+
+![ex-screenshot](screenshots/screen11.png)
+
+![ex-screenshot](screenshots/screen12.png)
+
+#### Import/export records
+
+![ex-screenshot](screenshots/screen13.png)
+
+![ex-screenshot](screenshots/screen14.png)
+
+![ex-screenshot](screenshots/screen15.png)
+
+#### Dynamic attributes
+
+![ex-screenshot](screenshots/screen16.png)
+
+![ex-screenshot](screenshots/screen17.png)
 
 ## Convention
 
