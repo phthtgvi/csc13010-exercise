@@ -9,6 +9,8 @@
 #include <limits>
 
 #include "nlohmann/json.hpp"
+#include "Logger.hpp"
+#include "RecordIO.hpp"
 
 using json = nlohmann::json;
 
@@ -196,10 +198,8 @@ private:
         const std::regex pattern(R"(\d{2}/\d{2}/\d{4})");
         return std::regex_match(dob, pattern);
     }
-
 };
 
-// Singleton pattern cho StudentRepository
 class StudentRepository {
 public:
     static StudentRepository& getInstance() {
@@ -213,18 +213,29 @@ public:
             saveDataToFile();
             displayAllStudents();
             std::cout << "Đã thêm sinh viên thành công.\n";
-        } else {
+            Logger::getInstance().log("Added student with ID: " + student.getId()); // Log the action
+        }
+        else {
             std::cout << "Không thể thêm sinh viên do thông tin không hợp lệ.\n";
+            Logger::getInstance().log("Failed to add student due to invalid information."); // Log the action
         }
     }
 
     void removeStudent(const std::string& id) {
-        students_.erase(std::remove_if(students_.begin(), students_.end(),
-                                        [&](const Student& s) { return s.getId() == id; }),
-                        students_.end());
-        saveDataToFile();
-        displayAllStudents();
-        std::cout << "Đã xóa sinh viên thành công.\n";
+        auto it = std::remove_if(students_.begin(), students_.end(),
+            [&](const Student& s) { return s.getId() == id; });
+
+        if (it != students_.end()) {
+            students_.erase(it, students_.end());
+            saveDataToFile();
+            displayAllStudents();
+            std::cout << "Đã xóa sinh viên thành công.\n";
+            Logger::getInstance().log("Removed student with ID: " + id); // Log the action
+        }
+        else {
+            std::cout << "Không tìm thấy sinh viên với ID này.\n";
+            Logger::getInstance().log("Attempted to remove student with ID: " + id + " but not found."); // Log the action
+        }
     }
 
     Student* findStudent(const std::string& id) {
@@ -243,12 +254,67 @@ public:
                 results.push_back(student);
             }
         }
+        Logger::getInstance().log("Searched students with keyword: " + keyword);
         return results;
     }
 
     void setValidator(StudentValidator* validator) {
         delete validator_;
         validator_ = validator;
+    }
+
+    // Method to get all students as a vector of vectors of strings
+    std::vector<std::vector<std::string>> getAllStudentsAsStrings() const {
+        std::vector<std::vector<std::string>> studentStrings;
+        for (const auto& student : students_) {
+            std::vector<std::string> studentData;
+            studentData.push_back(student.getId());
+            studentData.push_back(student.getName());
+            studentData.push_back(student.getDob());
+            studentData.push_back(student.getGender());
+            studentData.push_back(student.getFaculty());
+            studentData.push_back(student.getCourse());
+            studentData.push_back(student.getProgram());
+            studentData.push_back(student.getAddress());
+            studentData.push_back(student.getEmail());
+            studentData.push_back(student.getPhone());
+            studentData.push_back(student.getStatus());
+            studentStrings.push_back(studentData);
+        }
+        return studentStrings;
+    }
+
+    // Method to import students from a vector of vectors of strings
+    void importStudentsFromStrings(const std::vector<std::vector<std::string>>& studentStrings) {
+        bool flag = true;
+        for (const auto& studentData : studentStrings) {
+            if (studentData.size() == 11) {
+                Student newStudent(
+                    studentData[0],  // id
+                    studentData[1],  // name
+                    studentData[2],  // dob
+                    studentData[3],  // gender
+                    studentData[4],  // faculty
+                    studentData[5],  // course
+                    studentData[6],  // program
+                    studentData[7],  // address
+                    studentData[8],  // email
+                    studentData[9],  // phone
+                    studentData[10] // status
+                );
+
+                if (validator_->isValid(newStudent)) {
+                    students_.push_back(newStudent);
+                } else {
+                    flag = false;
+                    std::cout << "Thông tin sinh viên không hợp lệ: " << studentData[0] << std::endl;
+                }
+            } else {
+                std::cout << "Dữ liệu không hợp lệ, bỏ qua sinh viên." << std::endl;
+            }
+        }
+        if (flag == true) std::cout << "Nhập dữ liệu thành công" << std::endl;
+        saveDataToFile();
     }
 
     ~StudentRepository() {
@@ -264,8 +330,11 @@ public:
                 students_.push_back(Student::fromJson(item));
             }
             file.close();
-        } else {
+            Logger::getInstance().log("Loaded student data from file.");
+        }
+        else {
             std::cout << "Không thể mở file để đọc dữ liệu. Tạo file mới.\n";
+            Logger::getInstance().log("Could not open file to load data. Creating new file.");
         }
     }
 
@@ -277,6 +346,7 @@ public:
         std::ofstream file(filename_);
         file << std::setw(4) << j << std::endl;
         file.close();
+        Logger::getInstance().log("Saved student data to file.");
     }
 
     void displayAllStudents() {
@@ -290,7 +360,6 @@ public:
             std::cout << "----------\n";
         }
     }
-
 private:
     StudentRepository() : validator_(new ConcreteStudentValidator()) {
         loadDataFromFile();
@@ -301,9 +370,9 @@ private:
     std::vector<Student> students_;
     StudentValidator* validator_;
     const std::string filename_ = "students.json";
+
 };
 
-// Hàm để lấy thông tin sinh viên từ người dùng
 Student getStudentInfoFromUser() {
     std::string id, name, dob, gender, faculty, course, program, address, email, phone, status;
 
@@ -343,35 +412,27 @@ Student getStudentInfoFromUser() {
     return Student(id, name, dob, gender, faculty, course, program, address, email, phone, status);
 }
 
-
-// Function to get updated student information from the user
 bool getUpdatedStudentInfoFromUser(Student* student, ConcreteStudentValidator* validator) {
     std::string name, dob, gender, faculty, course, program, address, email, phone, status;
-
     std::cout << "Nhập họ tên (" << student->getName() << "): ";
     std::getline(std::cin, name);
     if (!name.empty()) student->setName(name);
-
 
     std::cout << "Nhập ngày tháng năm sinh (DD/MM/YYYY) (" << student->getDob() << "): ";
     std::getline(std::cin, dob);
     if (!dob.empty()) student->setDob(dob);
 
-
     std::cout << "Nhập giới tính (Male, Female) (" << student->getGender() << "): ";
     std::getline(std::cin, gender);
     if (!gender.empty()) student->setGender(gender);
-
 
     std::cout << "Nhập khoa (FL, FBE, FJPN, FFR) (" << student->getFaculty() << "): ";
     std::getline(std::cin, faculty);
     if (!faculty.empty()) student->setFaculty(faculty);
 
-
     std::cout << "Nhập khóa (YYYY) (" << student->getCourse() << "): ";
     std::getline(std::cin, course);
     if (!course.empty()) student->setCourse(course);
-
 
     std::cout << "Nhập chương trình (Advanced Program, Formal Program, High Quality Program) (" << student->getProgram() << "): ";
     std::getline(std::cin, program);
@@ -381,26 +442,25 @@ bool getUpdatedStudentInfoFromUser(Student* student, ConcreteStudentValidator* v
     std::getline(std::cin, address);
     if (!address.empty()) student->setAddress(address);
 
-
     std::cout << "Nhập email (" << student->getEmail() << "): ";
     std::getline(std::cin, email);
+
     if (!email.empty()) student->setEmail(email);
-
-
     std::cout << "Nhập số điện thoại (" << student->getPhone() << "): ";
     std::getline(std::cin, phone);
     if (!phone.empty()) student->setPhone(phone);
-
 
     std::cout << "Nhập tình trạng (Active, Graduated, Leave, Absent) (" << student->getStatus() << "): ";
     std::getline(std::cin, status);
     if (!status.empty()) student->setStatus(status);
 
-     if (!validator->isValid(*student)) {
+    if (!validator->isValid(*student)) {
         std::cout << "Thông tin sinh viên không hợp lệ. Cập nhật bị hủy bỏ.\n";
+        Logger::getInstance().log("Failed to update student with ID: " + student->getId() + " due to invalid information.");
         return false;
     }
 
+    Logger::getInstance().log("Updated student with ID: " + student->getId());
     return true;
 }
 
@@ -435,6 +495,7 @@ int main() {
 
     StudentRepository& repo = StudentRepository::getInstance();
     ConcreteStudentValidator* validator = new ConcreteStudentValidator();
+    RecordIO recordIO;
 
     int choice;
     do {
@@ -444,6 +505,10 @@ int main() {
         std::cout << "2. Xóa sinh viên" << std::endl;
         std::cout << "3. Cập nhật thông tin sinh viên" << std::endl;
         std::cout << "4. Tìm kiếm sinh viên" << std::endl;
+        std::cout << "5. Nhập dữ liệu từ CSV" << std::endl;
+        std::cout << "6. Xuất dữ liệu ra CSV" << std::endl;
+        std::cout << "7. Nhập dữ liệu từ JSON" << std::endl;
+        std::cout << "8. Xuất dữ liệu ra JSON" << std::endl;
         std::cout << "0. Thoát" << std::endl;
         std::cout << "Nhập lựa chọn của bạn: ";
         std::cin >> choice;
@@ -497,6 +562,41 @@ int main() {
                 } else {
                     std::cout << "Không tìm thấy sinh viên nào phù hợp.\n";
                 }
+                break;
+            }
+
+            case 5: {
+                std::string filename;
+                std::cout << "Nhập tên file CSV để nhập: ";
+                std::getline(std::cin, filename);
+                std::vector<std::vector<std::string>> importedData = recordIO.importFromCSV(filename);
+                repo.importStudentsFromStrings(importedData);
+                break;
+            }
+
+            case 6: {
+                std::string filename;
+                std::cout << "Nhập tên file CSV để xuất: ";
+                std::getline(std::cin, filename);
+                std::vector<std::vector<std::string>> allStudents = repo.getAllStudentsAsStrings();
+                recordIO.exportToCSV(filename, allStudents);
+                break;
+            }
+
+            case 7: {
+                std::string filename;
+                std::cout << "Nhập tên file JSON để nhập: ";
+                std::getline(std::cin, filename);
+                std::vector<std::vector<std::string>> importedData = recordIO.importFromJSON(filename);
+                repo.importStudentsFromStrings(importedData);
+                break;
+            }
+            case 8: {
+                std::string filename;
+                std::cout << "Nhập tên file JSON để xuất: ";
+                std::getline(std::cin, filename);
+                std::vector<std::vector<std::string>> allStudents = repo.getAllStudentsAsStrings();
+                recordIO.exportToJSON(filename, allStudents);
                 break;
             }
             case 0:
