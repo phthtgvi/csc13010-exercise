@@ -29,11 +29,11 @@ The Student Management System provides the following functionalities:
 ### v2.0
 
 - **Data storage:** Using JSON for storing directly to local files.
-- **Advanced Search:** Allow search by Faculty filter.
+- **Advanced Search:** Allow students searching by Faculty filter.
 - **Import/export records:** Allow user to import records as CSV/JSON and vice versa.
 - **Logging mechanism:** System automatically logs any meaningful operations or errors for troubleshooting issues.
-- **Development build information:** Display build version and build date at the website footer.
-- **Dynamic attributes:** Such attributes like Faculty, Program, Status is allowed to be added or audited by administrator. The system will provide 5 Faculty entities, 4 Status entities and 3 Program entities by default
+- **Development build information:** Display build version and build date at the top of the console application, all information is stored in `version_info.json` file.
+- **Dynamic attributes:** Such attributes like Faculty, Program, Status is allowed to be added or audited by administrator. The system will provide 5 Faculty entities, 4 Status entities and 3 Program entities by default.
 
 All student data is stored in a JSON file (`students.json`) for persistence. The system performs data validation on email, phone number, faculty, and student status.
 
