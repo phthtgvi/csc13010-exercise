@@ -247,14 +247,15 @@ public:
         return nullptr;
     }
 
-    std::vector<Student> searchStudents(const std::string& keyword) {
+    std::vector<Student> searchStudents(const std::string& faculty, const std::string& name = "") {
         std::vector<Student> results;
         for (const Student& student : students_) {
-            if (student.getName().find(keyword) != std::string::npos || student.getId().find(keyword) != std::string::npos) {
-                results.push_back(student);
+            if (student.getFaculty() == faculty) {
+                if (name.empty() || (student.getName().find(name) != std::string::npos)) {
+                    results.push_back(student);
+                }
             }
         }
-        Logger::getInstance().log("Searched students with keyword: " + keyword);
         return results;
     }
 
@@ -504,11 +505,12 @@ int main() {
         std::cout << "1. Thêm sinh viên" << std::endl;
         std::cout << "2. Xóa sinh viên" << std::endl;
         std::cout << "3. Cập nhật thông tin sinh viên" << std::endl;
-        std::cout << "4. Tìm kiếm sinh viên" << std::endl;
+        std::cout << "4. Tìm kiếm sinh viên (theo MSSV hoặc Họ tên)" << std::endl;
         std::cout << "5. Nhập dữ liệu từ CSV" << std::endl;
         std::cout << "6. Xuất dữ liệu ra CSV" << std::endl;
         std::cout << "7. Nhập dữ liệu từ JSON" << std::endl;
         std::cout << "8. Xuất dữ liệu ra JSON" << std::endl;
+        std::cout << "9. Tìm kiếm sinh viên (theo Khoa hoặc Khoa và Họ tên)" << std::endl; // New option
         std::cout << "0. Thoát" << std::endl;
         std::cout << "Nhập lựa chọn của bạn: ";
         std::cin >> choice;
@@ -597,6 +599,24 @@ int main() {
                 std::getline(std::cin, filename);
                 std::vector<std::vector<std::string>> allStudents = repo.getAllStudentsAsStrings();
                 recordIO.exportToJSON(filename, allStudents);
+                break;
+            }
+            case 9: {
+                std::string faculty, name;
+                std::cout << "Nhập Khoa cần tìm kiếm ('Họ tên' để trống nếu chỉ tìm theo Khoa): ";
+                std::getline(std::cin, faculty);
+                std::getline(std::cin, name);
+
+                std::vector<Student> results = repo.searchStudents(faculty, name);
+                if (!results.empty()) {
+                    std::cout << "Kết quả tìm kiếm:\n";
+                    for (const auto& s : results) {
+                        s.displayInfo();
+                        std::cout << "----------\n";
+                    }
+                } else {
+                    std::cout << "Không tìm thấy sinh viên nào phù hợp.\n";
+                }
                 break;
             }
             case 0:
