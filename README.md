@@ -37,6 +37,15 @@ The Student Management System provides the following functionalities:
 
 All student data is stored in a JSON file (`students.json`) for persistence. The system performs data validation on email, phone number, faculty, and student status.
 
+### v3.0
+- **Unique Student ID**: Ensures that each Student ID (MSSV) is unique. When adding or updating student records, duplicate Student IDs are not allowed.
+
+- **Configurable Email Domain**: The system enforces email validation based on a specific domain, which can be configured dynamically.
+Example: Only accepts emails ending with @student.university.edu.vn.
+- **Phone Number Validation by Country**: Validates phone numbers based on country-specific formats, which are configurable. Example: Vietnam phone numbers must start with +84 or 0[3|5|7|8|9]xxxxxxxx.
+- **Restricted Student Status Transitions**: Student status can only be changed following predefined rules, which are configurable. Example: "Đang học" → "Bảo lưu", "Tốt nghiệp", "Đình chỉ" (valid transitions). "Đã tốt nghiệp" cannot be reverted to "Đang học".
+
+All these enhancements ensure data integrity and improve system configurability while maintaining the JSON-based storage approach.
 ## Source Code Structure
 
 The source code is structured as follows:
@@ -47,6 +56,10 @@ The source code is structured as follows:
 - `ConcreteStudentValidator` class: Implements the `StudentValidator` interface and provides concrete validation rules for email, phone number, faculty, and status.
 - `StudentRepository` class: A Singleton class responsible for managing the list of students, including adding, removing, searching, and updating student information. It also handles loading and saving data to the `students.json` file.
 - `nlohmann/json.hpp`: A header-only library for JSON manipulation, located in the `nlohmann` folder.
+- `Logger.hpp`: Provides a Logger class following the Singleton pattern to log system events into the `student_management.log` file.
+- `ConfigManager.hpp`: Manages system configuration, including valid email suffixes and phone number regex patterns. The configuration is stored and loaded from the `config.json` file.
+- `RecordIO.hpp`: Provides functions for exporting and importing data in CSV and JSON formats, enabling easy storage and retrieval of student information from files.
+- `StatusRulesManager.hpp`: Manages student status transition rules, such as from "Active" to "Graduated." These rules are stored and loaded from the `status_rules.json` file.
 
 The application enforces the following validation rules:
 
