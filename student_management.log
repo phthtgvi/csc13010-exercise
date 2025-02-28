@@ -1,37 +1,12 @@
-2025-02-21 17:39:56: Loaded student data from file.
-2025-02-21 17:41:19: Saved student data to file.
-2025-02-21 17:41:19: Added student with ID: 20125001
-2025-02-21 17:51:16: Loaded student data from file.
-2025-02-21 17:52:59: Loaded student data from file.
-2025-02-21 17:54:35: Loaded student data from file.
-2025-02-21 17:55:28: Loaded student data from file.
-2025-02-21 17:55:53: Loaded student data from file.
-2025-02-21 17:56:46: Loaded student data from file.
-2025-02-21 17:56:51: Loaded student data from file.
-2025-02-21 17:57:20: Loaded student data from file.
-2025-02-21 17:57:47: Loaded student data from file.
-2025-02-21 17:58:20: Loaded student data from file.
-2025-02-21 17:58:56: Loaded student data from file.
-2025-02-21 18:00:36: Loaded student data from file.
-2025-02-21 18:01:32: Loaded student data from file.
-2025-02-21 18:02:43: Loaded student data from file.
-2025-02-21 18:20:24: Could not open file to load data. Creating new file.
-2025-02-21 18:24:55: Saved student data to file.
-2025-02-21 18:25:54: Loaded student data from file.
-2025-02-21 18:40:53: Loaded student data from file.
-2025-02-21 18:41:07: Saved student data to file.
-2025-02-21 20:00:46: Loaded student data from file.
-2025-02-21 20:29:53: Loaded student data from file.
-2025-02-21 20:30:57: Loaded student data from file.
-2025-02-21 20:31:10: Saved student data to file.
-2025-02-21 20:51:56: Loaded student data from file.
-2025-02-21 20:56:46: Loaded student data from file.
-2025-02-21 20:56:55: Loaded student data from file.
-2025-02-21 21:11:31: Loaded student data from file.
-2025-02-21 21:18:22: Loaded student data from file.
-2025-02-21 21:18:37: Loaded student data from file.
-2025-02-21 21:19:26: Loaded student data from file.
-2025-02-21 21:24:14: Saved student data to file.
-2025-02-21 21:27:44: Saved student data to file.
-2025-02-28 13:47:07: Loaded student data from file.
-2025-02-28 13:48:17: Failed to add student - ID already exists: 22127001
+2025-02-28 14:00:26: Could not open file to load data. Creating new file.
+2025-02-28 14:01:13: Loaded student data from file.
+2025-02-28 14:03:06: Loaded student data from file.
+2025-02-28 14:04:13: Failed to add student due to invalid information.
+2025-02-28 14:05:35: Failed to add student due to invalid information.
+2025-02-28 14:06:44: Saved student data to file.
+2025-02-28 14:06:44: Added student with ID: 21127005
+2025-02-28 14:09:39: Loaded student data from file.
+2025-02-28 14:10:38: Failed to add student due to invalid information.
+2025-02-28 14:11:47: Loaded student data from file.
+2025-02-28 14:17:10: Loaded student data from file.
+2025-02-28 14:17:59: Failed to add student due to invalid information.

@@ -12,6 +12,7 @@
 #include "Logger.hpp"
 #include "RecordIO.hpp"
 #include "Student.hpp"
+#include "ConfigManager.hpp"
 
 using json = nlohmann::json;
 
@@ -163,6 +164,7 @@ int main() {
 
     StudentRepository& repo = StudentRepository::getInstance();
     ConcreteStudentValidator* validator = new ConcreteStudentValidator(&repo);
+    repo.setValidator(validator);
     RecordIO recordIO;
 
     int choice;
@@ -181,6 +183,7 @@ int main() {
         std::cout << "10. Quản lý Khoa" << std::endl;
         std::cout << "11. Quản lý Tình trạng" << std::endl;
         std::cout << "12. Quản lý Chương trình" << std::endl;
+        std::cout << "13. Cấu hình định dạng Email & Số điện thoại" << std::endl;
 
         std::cout << "0. Thoát" << std::endl;
         std::cout << "Nhập lựa chọn của bạn: ";
@@ -351,6 +354,16 @@ int main() {
                 } else {
                     std::cout << "Lựa chọn không hợp lệ.\n";
                 }
+                break;
+            }
+            case 13: { // Cấu hình Email và Số điện thoại
+                std::string newEmailSuffix = repo.getSafeInput("Nhập đuôi email mới (ví dụ: @student.university.edu.vn): ");
+                std::string newPhoneRegex = repo.getSafeInput("Nhập biểu thức chính quy cho số điện thoại (ví dụ: +84: ");
+
+                ConfigManager::getInstance().setEmailSuffix(newEmailSuffix);
+                ConfigManager::getInstance().setPhoneRegex(newPhoneRegex);
+                ConfigManager::getInstance().saveConfig();
+                std::cout << "Cấu hình đã được cập nhật.\n";
                 break;
             }
             case 0:

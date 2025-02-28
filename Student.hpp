@@ -1,6 +1,8 @@
 #ifndef STUDENT_HPP_
 #define STUDENT_HPP_
 
+#include "ConfigManager.hpp"
+
 // Forward declaration
 class Student;
 
@@ -492,7 +494,7 @@ private:
     std::vector<std::string> programs_ = {"Advanced Program", "Formal Program", "High Quality Program"}; // Initial values
 };
 
-// Lớp xác thực dữ liệu sinh viên
+
 class ConcreteStudentValidator : public StudentValidator {
 public:
     ConcreteStudentValidator(class StudentRepository* repo) : repo_(repo) {}
@@ -506,19 +508,12 @@ public:
             std::cout << "Số điện thoại không hợp lệ.\n";
             return false;
         }
-
         if (!repo_->isValidFaculty(student.getFaculty())) {
             std::cout << "Khoa không hợp lệ.\n";
             return false;
         }
-
         if (!repo_->isValidStatus(student.getStatus())) {
             std::cout << "Tình trạng sinh viên không hợp lệ.\n";
-            return false;
-        }
-
-        if (!isValidGender(student.getGender())) {
-            std::cout << "Giới tính không hợp lệ. (Male, Female)\n";
             return false;
         }
         if (!isValidGender(student.getGender())) {
@@ -541,16 +536,44 @@ public:
     }
 
 private:
+    // Kiểm tra email: phải kết thúc với đuôi đã cấu hình
     bool isValidEmail(const std::string& email) {
-        const std::regex pattern(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
-        return std::regex_match(email, pattern);
+        std::string suffix = ConfigManager::getInstance().getEmailSuffix();
+        if (email.size() < suffix.size()) return false;
+        return email.compare(email.size() - suffix.size(), suffix.size(), suffix) == 0;
+    }
+
+    std::string escapeRegex(const std::string& str) {
+        std::string escaped;
+        for (char c : str) {
+            if (std::string(".^$|()[]{}*+?\\").find(c) != std::string::npos) {
+                escaped.push_back('\\');
+            }
+            escaped.push_back(c);
+        }
+        return escaped;
     }
 
     bool isValidPhone(const std::string& phone) {
-        const std::regex pattern(R"(\d{10})");
-        return std::regex_match(phone, pattern);
+        // Lấy cấu hình phoneRegex từ ConfigManager
+        std::string phonePattern = ConfigManager::getInstance().getPhoneRegex();
+        std::cout << "Cấu hình phoneRegex: " << phonePattern << "\n";
+
+        // Nếu chuỗi không bắt đầu bằng '^', cho rằng đây là chuỗi literal và escape nó
+        if (phonePattern.empty() || phonePattern.front() != '^') {
+            phonePattern = "^" + escapeRegex(phonePattern) + ".*$";
+        }
+
+        try {
+            std::regex pattern(phonePattern);
+            return std::regex_match(phone, pattern);
+        } catch (std::regex_error& e) {
+            std::cerr << "Regex error: " << e.what() << std::endl;
+            return false;
+        }
     }
 
+    // Các hàm xác thực cũ (gender, course, DOB) giữ nguyên...
     bool isValidGender(const std::string& gender) {
         return (gender == "Male" || gender == "Female");
     }
