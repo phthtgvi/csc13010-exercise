@@ -10,3 +10,11 @@
 2025-02-28 14:11:47: Loaded student data from file.
 2025-02-28 14:17:10: Loaded student data from file.
 2025-02-28 14:17:59: Failed to add student due to invalid information.
+2025-02-28 14:31:40: Loaded student data from file.
+2025-02-28 14:34:07: Loaded student data from file.
+2025-02-28 14:36:27: Failed to update student with ID: 21127005 due to invalid information.
+2025-02-28 14:38:01: Saved student data to file.
+2025-02-28 14:38:01: Added student with ID: 22127008
+2025-02-28 14:38:23: Updated student with ID: 22127008
+2025-02-28 14:38:23: Saved student data to file.
+2025-02-28 14:39:00: Failed to update student with ID: 22127008 due to invalid status transition from Graduated to Active

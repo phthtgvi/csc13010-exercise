@@ -13,6 +13,8 @@
 #include "RecordIO.hpp"
 #include "Student.hpp"
 #include "ConfigManager.hpp"
+#include "StatusRulesManager.hpp"
+
 
 using json = nlohmann::json;
 
@@ -118,11 +120,20 @@ bool getUpdatedStudentInfoFromUser(Student* student, ConcreteStudentValidator* v
     if (!phone.empty()) student->setPhone(phone);
 
     repo.displayStatuses();
-    std::cout << "Nhập tình trạng (Active, Graduated, Leave, Absent) (" << student->getStatus() << "): ";
+    std::cout << "Nhập tình trạng (ví dụ: Active, Graduated, Leave, Absent) (" << student->getStatus() << "): ";
     std::getline(std::cin, status);
-    if (!status.empty()) student->setStatus(status);
+    if (!status.empty()) {
+        // Kiểm tra quy luật chuyển đổi: trạng thái cũ -> trạng thái mới
+        std::string oldStatus = student->getStatus();
+        if (!StatusRulesManager::getInstance().isValidTransition(oldStatus, status)) {
+            std::cout << "Chuyển đổi từ trạng thái \"" << oldStatus << "\" sang \"" << status << "\" không hợp lệ.\n";
+            Logger::getInstance().log("Failed to update student with ID: " + student->getId() + " due to invalid status transition from " + oldStatus + " to " + status);
+            return false;
+        }
+        student->setStatus(status);
+    }
 
-    // Kiểm tra tính hợp lệ của thông tin sinh viên
+    // Sau đó, kiểm tra hợp lệ tổng thể
     if (!validator->isValid(*student)) {
         std::cout << "Thông tin sinh viên không hợp lệ. Cập nhật bị hủy bỏ.\n";
         Logger::getInstance().log("Failed to update student with ID: " + student->getId() + " due to invalid information.");
@@ -162,10 +173,14 @@ int main() {
     std::cout << "Build Date: " << buildDate << std::endl;
     std::cout << "-------------------------" << std::endl;
 
+    ConfigManager::getInstance().loadConfig();
+    StatusRulesManager::getInstance().loadRules();
+
     StudentRepository& repo = StudentRepository::getInstance();
     ConcreteStudentValidator* validator = new ConcreteStudentValidator(&repo);
     repo.setValidator(validator);
     RecordIO recordIO;
+
 
     int choice;
     do {
@@ -184,6 +199,7 @@ int main() {
         std::cout << "11. Quản lý Tình trạng" << std::endl;
         std::cout << "12. Quản lý Chương trình" << std::endl;
         std::cout << "13. Cấu hình định dạng Email & Số điện thoại" << std::endl;
+        std::cout << "14. Cấu hình quy luật chuyển đổi Status" << std::endl;
 
         std::cout << "0. Thoát" << std::endl;
         std::cout << "Nhập lựa chọn của bạn: ";
@@ -364,6 +380,26 @@ int main() {
                 ConfigManager::getInstance().setPhoneRegex(newPhoneRegex);
                 ConfigManager::getInstance().saveConfig();
                 std::cout << "Cấu hình đã được cập nhật.\n";
+                break;
+            }
+            case 14: { // Cấu hình quy luật chuyển đổi Status
+                std::string currentStatus = repo.getSafeInput("Nhập trạng thái hiện tại cần cấu hình: ");
+                std::string allowedStr = repo.getSafeInput("Nhập các trạng thái cho phép chuyển đổi (cách nhau bởi dấu phẩy): ");
+
+                // Tách chuỗi allowedStr thành vector<string>
+                std::vector<std::string> allowed;
+                std::istringstream ss(allowedStr);
+                std::string token;
+                while (std::getline(ss, token, ',')) {
+                    // Loại bỏ khoảng trắng ở đầu và cuối
+                    token.erase(0, token.find_first_not_of(" \t"));
+                    token.erase(token.find_last_not_of(" \t") + 1);
+                    if (!token.empty())
+                        allowed.push_back(token);
+                }
+
+                StatusRulesManager::getInstance().setAllowedTransitions(currentStatus, allowed);
+                StatusRulesManager::getInstance().saveRules();
                 break;
             }
             case 0:

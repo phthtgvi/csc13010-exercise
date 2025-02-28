@@ -75,6 +75,19 @@
         "name": "Do Van G",
         "phone": "0909555777",
         "program": "Advanced Program",
-        "status": "Active"
+        "status": "Graduated"
+    },
+    {
+        "address": "Da Nang",
+        "course": "2022",
+        "dob": "18/08/2004",
+        "email": "22127008@student.university.edu.vn",
+        "faculty": "FJPN",
+        "gender": "Male",
+        "id": "22127008",
+        "name": "Nguyen Van H",
+        "phone": "+84909333444",
+        "program": "Advanced Program",
+        "status": "Graduated"
     }
 ]

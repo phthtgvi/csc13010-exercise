@@ -1,0 +1,20 @@
+{
+    "Absent": [
+        "Active",
+        "Leave"
+    ],
+    "Active": [
+        "Leave",
+        "Graduated",
+        "Absent"
+    ],
+    "Graduated": [
+        "Post-graduated"
+    ],
+    "Leave": [
+        "Active",
+        "Graduated",
+        "Absent"
+    ],
+    "Post-graduated": []
+}
