@@ -216,6 +216,28 @@ To run the compiled program:
 
 ![ex-screenshot](screenshots/screen17.png)
 
+### v3.0
+
+#### Unique student ID
+
+![ex-screenshot](screenshots/screen18.png)
+
+#### Configurable phone number prefix
+
+![ex-screenshot](screenshots/screen20.png)
+
+#### Configurable email suffix
+
+![ex-screenshot](screenshots/screen19.png)
+
+#### Configurable status rules
+
+![ex-screenshot](screenshots/screen21.png)
+
+#### Unit testing
+
+![ex-screenshot](screenshots/screen22.png)
+
 ## Convention
 
 The coding style is followed to the C++ coding standards. Use meaningful variable names, provide comments where necessary, and ensure the code is well-formatted.
