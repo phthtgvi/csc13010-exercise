@@ -18,3 +18,21 @@
 2025-02-28 14:38:23: Updated student with ID: 22127008
 2025-02-28 14:38:23: Saved student data to file.
 2025-02-28 14:39:00: Failed to update student with ID: 22127008 due to invalid status transition from Graduated to Active
+2025-02-28 16:45:01: Loaded student data from file.
+2025-02-28 16:45:01: Saved student data to file.
+2025-02-28 16:45:01: Removed student with ID: 22127001
+2025-02-28 16:45:01: Saved student data to file.
+2025-02-28 16:45:01: Removed student with ID: 22127003
+2025-02-28 16:45:01: Saved student data to file.
+2025-02-28 16:45:01: Removed student with ID: 20125001
+2025-02-28 16:45:01: Attempted to remove student with ID: 22127003 but not found.
+2025-02-28 16:45:01: Attempted to remove student with ID: 20125001 but not found.
+2025-02-28 16:45:01: Saved student data to file.
+2025-02-28 16:45:01: Removed student with ID: 21127005
+2025-02-28 16:45:01: Saved student data to file.
+2025-02-28 16:45:01: Removed student with ID: 22127008
+2025-02-28 16:45:01: Saved student data to file.
+2025-02-28 16:45:01: Added student with ID: SV001
+2025-02-28 16:45:01: Failed to add student - ID already exists: SV001
+2025-02-28 16:45:01: Saved student data to file.
+2025-02-28 16:45:01: Removed student with ID: SV001

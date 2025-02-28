@@ -2,6 +2,7 @@
 #define STUDENT_HPP_
 
 #include "ConfigManager.hpp"
+#include "Logger.hpp"
 
 // Forward declaration
 class Student;
@@ -135,6 +136,7 @@ public:
 
     void addStudent(const Student& student) {
         // Kiểm tra xem MSSV đã tồn tại hay chưa
+
         for (const auto& existingStudent : students_) {
             if (existingStudent.getId() == student.getId()) {
                 std::cout << "Lỗi: MSSV " << student.getId() << " đã tồn tại!\n";
@@ -143,15 +145,20 @@ public:
             }
         }
 
-        // Kiểm tra tính hợp lệ của thông tin sinh viên
+
+        if (validator_ == nullptr) {
+            std::cerr << "Validator chưa được thiết lập!\n";
+            return;
+        }
+
+
         if (validator_->isValid(student)) {
             students_.push_back(student);
+
             saveStudentDataToFile();
-            displayAllStudents();
             std::cout << "Đã thêm sinh viên thành công.\n";
             Logger::getInstance().log("Added student with ID: " + student.getId()); // Log thành công
-        }
-        else {
+        } else {
             std::cout << "Không thể thêm sinh viên do thông tin không hợp lệ.\n";
             Logger::getInstance().log("Failed to add student due to invalid information."); // Log lỗi
         }
@@ -164,7 +171,6 @@ public:
         if (it != students_.end()) {
             students_.erase(it, students_.end());
             saveStudentDataToFile();
-            displayAllStudents();
             std::cout << "Đã xóa sinh viên thành công.\n";
             Logger::getInstance().log("Removed student with ID: " + id); // Log the action
         }
