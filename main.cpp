@@ -60,7 +60,24 @@ Student getStudentInfoFromUser() {
 }
 
 bool getUpdatedStudentInfoFromUser(Student* student, ConcreteStudentValidator* validator) {
-    std::string name, dob, gender, faculty, course, program, address, email, phone, status;
+    std::string id, name, dob, gender, faculty, course, program, address, email, phone, status;
+
+    // Lấy repository để kiểm tra MSSV
+    StudentRepository& repo = StudentRepository::getInstance();
+
+    std::cout << "Nhập MSSV (" << student->getId() << "): ";
+    std::getline(std::cin, id);
+
+    // Nếu người dùng nhập MSSV mới, kiểm tra xem nó có trùng không
+    if (!id.empty() && id != student->getId()) {
+        if (repo.isStudentIdExists(id)) {
+            std::cout << "Lỗi: MSSV " << id << " đã tồn tại!\n";
+            Logger::getInstance().log("Failed to update student - ID already exists: " + id);
+            return false;
+        }
+        student->setId(id);
+    }
+
     std::cout << "Nhập họ tên (" << student->getName() << "): ";
     std::getline(std::cin, name);
     if (!name.empty()) student->setName(name);
@@ -73,8 +90,6 @@ bool getUpdatedStudentInfoFromUser(Student* student, ConcreteStudentValidator* v
     std::getline(std::cin, gender);
     if (!gender.empty()) student->setGender(gender);
 
-
-    StudentRepository& repo = StudentRepository::getInstance(); // Get the instance
     repo.displayFaculties();
     std::cout << "Nhập khoa: ";
     std::getline(std::cin, faculty);
@@ -95,8 +110,8 @@ bool getUpdatedStudentInfoFromUser(Student* student, ConcreteStudentValidator* v
 
     std::cout << "Nhập email (" << student->getEmail() << "): ";
     std::getline(std::cin, email);
-
     if (!email.empty()) student->setEmail(email);
+
     std::cout << "Nhập số điện thoại (" << student->getPhone() << "): ";
     std::getline(std::cin, phone);
     if (!phone.empty()) student->setPhone(phone);
@@ -106,6 +121,7 @@ bool getUpdatedStudentInfoFromUser(Student* student, ConcreteStudentValidator* v
     std::getline(std::cin, status);
     if (!status.empty()) student->setStatus(status);
 
+    // Kiểm tra tính hợp lệ của thông tin sinh viên
     if (!validator->isValid(*student)) {
         std::cout << "Thông tin sinh viên không hợp lệ. Cập nhật bị hủy bỏ.\n";
         Logger::getInstance().log("Failed to update student with ID: " + student->getId() + " due to invalid information.");

@@ -1,41 +1,67 @@
 [
-    [
-        "22127001",
-        "Nguyen Van A",
-        "22/02/2004",
-        "Nam",
-        "FL",
-        "22",
-        "Formal Program",
-        "Ho Chi Minh",
-        "nva22@clc.fitus.edu.vn",
-        "0909555111",
-        "Active"
-    ],
-    [
-        "22127003",
-        "Tran Thi C",
-        "03/03/2003",
-        "Male",
-        "FJPN",
-        "2022",
-        "Formal Program",
-        "Ho Chi Minh",
-        "ttc22@clc.fitus.edu.vn",
-        "0909444888",
-        "Active"
-    ],
-    [
-        "20125001",
-        "Tran Van A",
-        "01/01/2000",
-        "Male",
-        "FL",
-        "2020",
-        "Advanced Program",
-        "Da Nang",
-        "tva20@apfl.univ.edu.vn",
-        "0891111222",
-        "Active"
-    ]
+    {
+        "address": "Ho Chi Minh",
+        "course": "22",
+        "dob": "22/02/2004",
+        "email": "nva22@clc.fitus.edu.vn",
+        "faculty": "FL",
+        "gender": "Nam",
+        "id": "22127001",
+        "name": "Nguyen Van A",
+        "phone": "0909555111",
+        "program": "Formal Program",
+        "status": "Active"
+    },
+    {
+        "address": "Ho Chi Minh",
+        "course": "2022",
+        "dob": "03/03/2003",
+        "email": "ttc22@clc.fitus.edu.vn",
+        "faculty": "FJPN",
+        "gender": "Male",
+        "id": "22127003",
+        "name": "Tran Thi C",
+        "phone": "0909444888",
+        "program": "Formal Program",
+        "status": "Active"
+    },
+    {
+        "address": "Da Nang",
+        "course": "2020",
+        "dob": "01/01/2000",
+        "email": "tva20@apfl.univ.edu.vn",
+        "faculty": "FL",
+        "gender": "Male",
+        "id": "20125001",
+        "name": "Tran Van A",
+        "phone": "0891111222",
+        "program": "Advanced Program",
+        "status": "Active"
+    },
+    {
+        "address": "Ho Chi Minh",
+        "course": "2022",
+        "dob": "03/03/2003",
+        "email": "ttc22@clc.fitus.edu.vn",
+        "faculty": "FJPN",
+        "gender": "Male",
+        "id": "22127003",
+        "name": "Tran Thi C",
+        "phone": "0909444888",
+        "program": "Formal Program",
+        "status": "Active"
+    },
+    {
+        "address": "Da Nang",
+        "course": "2020",
+        "dob": "01/01/2000",
+        "email": "tva20@apfl.univ.edu.vn",
+        "faculty": "FL",
+        "gender": "Male",
+        "id": "20125001",
+        "name": "Tran Van A",
+        "phone": "0891111222",
+        "program": "Advanced Program",
+        "status": "Active"
+    }
 ]

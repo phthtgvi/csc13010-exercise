@@ -44,6 +44,7 @@ public:
     std::string getFaculty() const { return faculty_; }
 
     // Setter methods
+    void setId(const std::string& id) { id_ = id; }
     void setName(const std::string& name) { name_ = name; }
     void setDob(const std::string& dob) { dob_ = dob; }
     void setGender(const std::string& gender) { gender_ = gender; }
@@ -118,6 +119,11 @@ public:
         return instance;
     }
 
+    bool isStudentIdExists(const std::string& id) const {
+    return std::any_of(students_.begin(), students_.end(),
+                       [&](const Student& student) { return student.getId() == id; });
+    }
+
     std::string getSafeInput(const std::string& prompt) {
         std::string input;
         std::cout << prompt;
@@ -126,16 +132,26 @@ public:
     }
 
     void addStudent(const Student& student) {
+        // Kiểm tra xem MSSV đã tồn tại hay chưa
+        for (const auto& existingStudent : students_) {
+            if (existingStudent.getId() == student.getId()) {
+                std::cout << "Lỗi: MSSV " << student.getId() << " đã tồn tại!\n";
+                Logger::getInstance().log("Failed to add student - ID already exists: " + student.getId()); // Log lỗi
+                return;
+            }
+        }
+
+        // Kiểm tra tính hợp lệ của thông tin sinh viên
         if (validator_->isValid(student)) {
             students_.push_back(student);
             saveStudentDataToFile();
             displayAllStudents();
             std::cout << "Đã thêm sinh viên thành công.\n";
-            Logger::getInstance().log("Added student with ID: " + student.getId()); // Log the action
+            Logger::getInstance().log("Added student with ID: " + student.getId()); // Log thành công
         }
         else {
             std::cout << "Không thể thêm sinh viên do thông tin không hợp lệ.\n";
-            Logger::getInstance().log("Failed to add student due to invalid information."); // Log the action
+            Logger::getInstance().log("Failed to add student due to invalid information."); // Log lỗi
         }
     }
 
