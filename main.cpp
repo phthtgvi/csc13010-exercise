@@ -206,7 +206,6 @@ namespace Test {
 
     // Test: Thêm, kiểm tra trùng lặp và xóa sinh viên trong StudentRepository
     void testStudentRepository() {
-        clearStudentRepository();
         StudentRepository& repo = StudentRepository::getInstance();
 
         Student s("SV001", "Alice", "01/01/2000", "Female", "Faculty of Law", "2020",
@@ -275,8 +274,8 @@ namespace Test {
     // Test: Cấu hình email và phone thông qua ConfigManager
     void testConfigManager() {
         ConfigManager& config = ConfigManager::getInstance();
-        config.setEmailSuffix("@student.hcmus.edu.vn");
-        config.setPhoneRegex("+35");
+        config.setEmailSuffix("@student.university.edu.vn");
+        config.setPhoneRegex("+84");
         config.saveConfig();
 
         // Reset lại để kiểm tra load
@@ -284,8 +283,8 @@ namespace Test {
         config.setPhoneRegex("");
         config.loadConfig();
 
-        assert(config.getEmailSuffix() == "@student.hcmus.edu.vn");
-        assert(config.getPhoneRegex() == "+35");
+        assert(config.getEmailSuffix() == "@student.university.edu.vn");
+        assert(config.getPhoneRegex() == "+84");
         std::cout << "testConfigManager passed.\n";
     }
 
@@ -312,7 +311,6 @@ namespace Test {
 
         // Reset repository
         StudentRepository& repo = StudentRepository::getInstance();
-        clearStudentRepository();
 
         ConcreteStudentValidator validator(&repo);
 

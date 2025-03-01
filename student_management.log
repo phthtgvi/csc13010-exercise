@@ -36,3 +36,212 @@
 2025-02-28 16:45:01: Failed to add student - ID already exists: SV001
 2025-02-28 16:45:01: Saved student data to file.
 2025-02-28 16:45:01: Removed student with ID: SV001
+2025-03-01 09:32:25: Loaded student data from file.
+2025-03-01 09:32:25: Saved student data to file.
+2025-03-01 09:32:25: Removed student with ID: 22127001
+2025-03-01 09:32:25: Saved student data to file.
+2025-03-01 09:32:25: Removed student with ID: 22127003
+2025-03-01 09:32:25: Saved student data to file.
+2025-03-01 09:32:25: Removed student with ID: 20125001
+2025-03-01 09:32:25: Attempted to remove student with ID: 22127003 but not found.
+2025-03-01 09:32:25: Attempted to remove student with ID: 20125001 but not found.
+2025-03-01 09:32:25: Saved student data to file.
+2025-03-01 09:32:25: Removed student with ID: 21127005
+2025-03-01 09:32:25: Saved student data to file.
+2025-03-01 09:32:25: Removed student with ID: 22127008
+2025-03-01 09:32:25: Saved student data to file.
+2025-03-01 09:32:25: Added student with ID: SV001
+2025-03-01 09:32:25: Failed to add student - ID already exists: SV001
+2025-03-01 09:32:25: Saved student data to file.
+2025-03-01 09:32:25: Removed student with ID: SV001
+2025-03-01 09:33:21: Loaded student data from file.
+2025-03-01 09:33:21: Saved student data to file.
+2025-03-01 09:33:21: Removed student with ID: 22127001
+2025-03-01 09:33:21: Saved student data to file.
+2025-03-01 09:33:21: Removed student with ID: 22127003
+2025-03-01 09:33:21: Saved student data to file.
+2025-03-01 09:33:21: Removed student with ID: 20125001
+2025-03-01 09:33:21: Attempted to remove student with ID: 22127003 but not found.
+2025-03-01 09:33:21: Attempted to remove student with ID: 20125001 but not found.
+2025-03-01 09:33:21: Saved student data to file.
+2025-03-01 09:33:21: Removed student with ID: 21127005
+2025-03-01 09:33:21: Saved student data to file.
+2025-03-01 09:33:21: Removed student with ID: 22127008
+2025-03-01 09:33:21: Failed to add student due to invalid information.
+2025-03-01 09:33:57: Loaded student data from file.
+2025-03-01 09:33:57: Failed to add student due to invalid information.
+2025-03-01 09:33:58: Loaded student data from file.
+2025-03-01 09:33:58: Failed to add student due to invalid information.
+2025-03-01 09:34:06: Loaded student data from file.
+2025-03-01 09:34:06: Failed to add student due to invalid information.
+2025-03-01 09:35:30: Loaded student data from file.
+2025-03-01 09:35:30: Failed to add student due to invalid information.
+2025-03-01 09:37:26: Loaded student data from file.
+2025-03-01 09:37:26: Failed to add student due to invalid information.
+2025-03-01 09:37:54: Loaded student data from file.
+2025-03-01 09:37:54: Saved student data to file.
+2025-03-01 09:37:54: Removed student with ID: 22127001
+2025-03-01 09:37:54: Saved student data to file.
+2025-03-01 09:37:54: Removed student with ID: 22127003
+2025-03-01 09:37:54: Saved student data to file.
+2025-03-01 09:37:54: Removed student with ID: 20125001
+2025-03-01 09:37:54: Attempted to remove student with ID: 22127003 but not found.
+2025-03-01 09:37:54: Attempted to remove student with ID: 20125001 but not found.
+2025-03-01 09:37:54: Saved student data to file.
+2025-03-01 09:37:54: Removed student with ID: 21127005
+2025-03-01 09:37:54: Saved student data to file.
+2025-03-01 09:37:54: Removed student with ID: 22127008
+2025-03-01 09:37:54: Failed to add student due to invalid information.
+2025-03-01 09:38:55: Loaded student data from file.
+2025-03-01 09:38:55: Saved student data to file.
+2025-03-01 09:38:55: Removed student with ID: 22127001
+2025-03-01 09:38:55: Saved student data to file.
+2025-03-01 09:38:55: Removed student with ID: 22127003
+2025-03-01 09:38:55: Saved student data to file.
+2025-03-01 09:38:55: Removed student with ID: 20125001
+2025-03-01 09:38:55: Attempted to remove student with ID: 22127003 but not found.
+2025-03-01 09:38:55: Attempted to remove student with ID: 20125001 but not found.
+2025-03-01 09:38:55: Saved student data to file.
+2025-03-01 09:38:55: Removed student with ID: 21127005
+2025-03-01 09:38:55: Saved student data to file.
+2025-03-01 09:38:55: Removed student with ID: 22127008
+2025-03-01 09:38:55: Saved student data to file.
+2025-03-01 09:38:55: Added student with ID: SV001
+2025-03-01 09:38:55: Failed to add student - ID already exists: SV001
+2025-03-01 09:38:55: Saved student data to file.
+2025-03-01 09:38:55: Removed student with ID: SV001
+2025-03-01 09:40:02: Loaded student data from file.
+2025-03-01 09:40:02: Saved student data to file.
+2025-03-01 09:40:02: Removed student with ID: 22127001
+2025-03-01 09:40:02: Saved student data to file.
+2025-03-01 09:40:02: Removed student with ID: 22127003
+2025-03-01 09:40:02: Saved student data to file.
+2025-03-01 09:40:02: Removed student with ID: 20125001
+2025-03-01 09:40:02: Attempted to remove student with ID: 22127003 but not found.
+2025-03-01 09:40:02: Attempted to remove student with ID: 20125001 but not found.
+2025-03-01 09:40:02: Saved student data to file.
+2025-03-01 09:40:02: Removed student with ID: 21127005
+2025-03-01 09:40:02: Saved student data to file.
+2025-03-01 09:40:02: Removed student with ID: 22127008
+2025-03-01 09:40:02: Saved student data to file.
+2025-03-01 09:40:02: Added student with ID: SV001
+2025-03-01 09:40:02: Failed to add student - ID already exists: SV001
+2025-03-01 09:40:02: Saved student data to file.
+2025-03-01 09:40:02: Removed student with ID: SV001
+2025-03-01 09:40:16: Loaded student data from file.
+2025-03-01 09:40:16: Saved student data to file.
+2025-03-01 09:40:16: Added student with ID: SV001
+2025-03-01 09:40:16: Failed to add student - ID already exists: SV001
+2025-03-01 09:40:16: Saved student data to file.
+2025-03-01 09:40:16: Removed student with ID: SV001
+2025-03-01 09:41:17: Loaded student data from file.
+2025-03-01 09:41:17: Saved student data to file.
+2025-03-01 09:41:17: Added student with ID: SV001
+2025-03-01 09:41:17: Failed to add student - ID already exists: SV001
+2025-03-01 09:41:17: Saved student data to file.
+2025-03-01 09:41:17: Removed student with ID: SV001
+2025-03-01 09:41:17: Saved student data to file.
+2025-03-01 09:41:17: Removed student with ID: 22127001
+2025-03-01 09:41:17: Saved student data to file.
+2025-03-01 09:41:17: Removed student with ID: 22127003
+2025-03-01 09:41:17: Saved student data to file.
+2025-03-01 09:41:17: Removed student with ID: 20125001
+2025-03-01 09:41:17: Attempted to remove student with ID: 22127003 but not found.
+2025-03-01 09:41:17: Attempted to remove student with ID: 20125001 but not found.
+2025-03-01 09:41:17: Saved student data to file.
+2025-03-01 09:41:17: Removed student with ID: 21127005
+2025-03-01 09:41:17: Saved student data to file.
+2025-03-01 09:41:17: Removed student with ID: 22127008
+2025-03-01 09:43:05: Loaded student data from file.
+2025-03-01 09:43:05: Saved student data to file.
+2025-03-01 09:43:05: Removed student with ID: 22127001
+2025-03-01 09:43:05: Saved student data to file.
+2025-03-01 09:43:05: Removed student with ID: 22127003
+2025-03-01 09:43:05: Saved student data to file.
+2025-03-01 09:43:05: Removed student with ID: 20125001
+2025-03-01 09:43:05: Attempted to remove student with ID: 22127003 but not found.
+2025-03-01 09:43:05: Attempted to remove student with ID: 20125001 but not found.
+2025-03-01 09:43:05: Saved student data to file.
+2025-03-01 09:43:05: Removed student with ID: 21127005
+2025-03-01 09:43:05: Saved student data to file.
+2025-03-01 09:43:05: Removed student with ID: 22127008
+2025-03-01 09:43:05: Saved student data to file.
+2025-03-01 09:43:05: Added student with ID: SV001
+2025-03-01 09:43:05: Failed to add student - ID already exists: SV001
+2025-03-01 09:43:05: Saved student data to file.
+2025-03-01 09:43:05: Removed student with ID: SV001
+2025-03-01 09:44:07: Loaded student data from file.
+2025-03-01 09:44:07: Saved student data to file.
+2025-03-01 09:44:07: Added student with ID: SV001
+2025-03-01 09:44:07: Failed to add student - ID already exists: SV001
+2025-03-01 09:44:07: Saved student data to file.
+2025-03-01 09:44:07: Removed student with ID: SV001
+2025-03-01 09:44:29: Loaded student data from file.
+2025-03-01 09:44:29: Saved student data to file.
+2025-03-01 09:44:29: Removed student with ID: 22127001
+2025-03-01 09:44:29: Saved student data to file.
+2025-03-01 09:44:29: Removed student with ID: 22127003
+2025-03-01 09:44:29: Saved student data to file.
+2025-03-01 09:44:29: Removed student with ID: 20125001
+2025-03-01 09:44:29: Attempted to remove student with ID: 22127003 but not found.
+2025-03-01 09:44:29: Attempted to remove student with ID: 20125001 but not found.
+2025-03-01 09:44:29: Saved student data to file.
+2025-03-01 09:44:29: Removed student with ID: 21127005
+2025-03-01 09:44:29: Saved student data to file.
+2025-03-01 09:44:29: Removed student with ID: 22127008
+2025-03-01 09:44:29: Saved student data to file.
+2025-03-01 09:44:29: Added student with ID: SV001
+2025-03-01 09:44:29: Failed to add student - ID already exists: SV001
+2025-03-01 09:44:29: Saved student data to file.
+2025-03-01 09:44:29: Removed student with ID: SV001
+2025-03-01 09:45:50: Loaded student data from file.
+2025-03-01 09:45:50: Saved student data to file.
+2025-03-01 09:45:50: Removed student with ID: 22127001
+2025-03-01 09:45:50: Saved student data to file.
+2025-03-01 09:45:50: Removed student with ID: 22127003
+2025-03-01 09:45:50: Saved student data to file.
+2025-03-01 09:45:50: Removed student with ID: 20125001
+2025-03-01 09:45:50: Attempted to remove student with ID: 22127003 but not found.
+2025-03-01 09:45:50: Attempted to remove student with ID: 20125001 but not found.
+2025-03-01 09:45:50: Saved student data to file.
+2025-03-01 09:45:50: Removed student with ID: 21127005
+2025-03-01 09:45:50: Saved student data to file.
+2025-03-01 09:45:50: Removed student with ID: 22127008
+2025-03-01 09:45:50: Saved student data to file.
+2025-03-01 09:45:50: Added student with ID: SV001
+2025-03-01 09:45:50: Failed to add student - ID already exists: SV001
+2025-03-01 09:45:50: Saved student data to file.
+2025-03-01 09:45:50: Removed student with ID: SV001
+2025-03-01 09:46:04: Loaded student data from file.
+2025-03-01 09:46:44: Loaded student data from file.
+2025-03-01 09:46:59: Loaded student data from file.
+2025-03-01 09:47:45: Loaded student data from file.
+2025-03-01 09:47:45: Saved student data to file.
+2025-03-01 09:47:45: Removed student with ID: 22127001
+2025-03-01 09:47:45: Saved student data to file.
+2025-03-01 09:47:45: Removed student with ID: 22127003
+2025-03-01 09:47:45: Saved student data to file.
+2025-03-01 09:47:45: Removed student with ID: 20125001
+2025-03-01 09:47:45: Attempted to remove student with ID: 22127003 but not found.
+2025-03-01 09:47:45: Attempted to remove student with ID: 20125001 but not found.
+2025-03-01 09:47:45: Saved student data to file.
+2025-03-01 09:47:45: Removed student with ID: 21127005
+2025-03-01 09:47:45: Saved student data to file.
+2025-03-01 09:47:45: Removed student with ID: 22127008
+2025-03-01 09:47:45: Saved student data to file.
+2025-03-01 09:47:45: Added student with ID: SV001
+2025-03-01 09:47:45: Failed to add student - ID already exists: SV001
+2025-03-01 09:47:45: Saved student data to file.
+2025-03-01 09:47:45: Removed student with ID: SV001
+2025-03-01 09:54:02: Loaded student data from file.
+2025-03-01 09:54:02: Saved student data to file.
+2025-03-01 09:54:02: Added student with ID: SV001
+2025-03-01 09:54:02: Failed to add student - ID already exists: SV001
+2025-03-01 09:54:02: Saved student data to file.
+2025-03-01 09:54:02: Removed student with ID: SV001
+2025-03-01 09:54:13: Loaded student data from file.
+2025-03-01 09:54:13: Saved student data to file.
+2025-03-01 09:54:13: Added student with ID: SV001
+2025-03-01 09:54:13: Failed to add student - ID already exists: SV001
+2025-03-01 09:54:13: Saved student data to file.
+2025-03-01 09:54:13: Removed student with ID: SV001
