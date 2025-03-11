@@ -233,7 +233,10 @@ int main() {
     std::cout << "Application Version: " << version << std::endl;
     std::cout << "Build Date: " << buildDate << std::endl;
     std::cout << "-------------------------" << std::endl;
-
+    std::cout << "Email Suffix: " << ConfigManager::getInstance().getEmailSuffix() << std::endl;
+    std::cout << "Phone Regex: " << ConfigManager::getInstance().getPhoneRegex() << std::endl;
+    std::cout << "Delete time limit window: " << ConfigManager::getInstance().getDeleteTimeLimit() << std::endl;
+    std::cout << "-------------------------" << std::endl;
     ConfigManager::getInstance().loadConfig();
     StatusRulesManager::getInstance().loadRules();
 
@@ -242,6 +245,7 @@ int main() {
     repo.setValidator(validator);
     RecordIO recordIO;
 
+    #ifdef UNIT_TEST
     try {
         Test::testStudentSerialization();
         Test::testStudentRepository();
@@ -259,6 +263,7 @@ int main() {
         std::cerr << "Unit test thất bại với lỗi không xác định.\n";
         return 1;
     }
+    #endif
 
     int choice;
     do {
@@ -279,6 +284,7 @@ int main() {
         std::cout << "13. Cấu hình định dạng Email & Số điện thoại" << std::endl;
         std::cout << "14. Cấu hình quy luật chuyển đổi Status" << std::endl;
         std::cout << "15. Xuất giấy xác nhận tình trạng sinh viên" << std::endl;
+        std::cout << "16. Cấu hình thời gian xóa sinh viên" << std::endl;
         std::cout << "0. Thoát" << std::endl;
         std::cout << "Nhập lựa chọn của bạn: ";
         std::cin >> choice;
@@ -564,6 +570,18 @@ int main() {
                     std::cout << "Giấy xác nhận đã được tạo thành công: " << outputFile << "\n";
                 } else {
                     std::cerr << "Tạo giấy xác nhận thất bại.\n";
+                }
+                break;
+            }
+            case 16: { // Cấu hình thời gian xóa sinh viên
+                std::string thresholdStr = repo.getSafeInput("Nhập thời gian (phút) cho phép xóa sinh viên kể từ thời điểm tạo: ");
+                try {
+                    int threshold = std::stoi(thresholdStr);
+                    ConfigManager::getInstance().setDeleteTimeLimit(threshold);
+                    ConfigManager::getInstance().saveConfig();
+                    std::cout << "Cấu hình thời gian xóa đã được cập nhật thành: " << threshold << " phút.\n";
+                } catch (std::exception &e) {
+                    std::cout << "Lỗi nhập số: " << e.what() << "\n";
                 }
                 break;
             }

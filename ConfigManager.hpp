@@ -13,6 +13,11 @@ using json = nlohmann::json;
 
 class ConfigManager {
 public:
+
+    void setDeleteTimeLimit(int minutes) { deleteTimeLimit_ = minutes; }
+    int getDeleteTimeLimit() const { return deleteTimeLimit_; }
+
+
     static ConfigManager& getInstance() {
         static ConfigManager instance;
         return instance;
@@ -28,6 +33,7 @@ public:
                 file >> j;
                 emailSuffix = j.value("emailSuffix", emailSuffix);
                 phoneRegex = j.value("phoneRegex", phoneRegex);
+                deleteTimeLimit_ = j.value("deleteTimeLimit", deleteTimeLimit_);
             } catch (const json::exception& e) {
                 std::cerr << "Lỗi khi parse config: " << e.what() << std::endl;
             }
@@ -37,11 +43,13 @@ public:
         }
     }
 
+
     // Lưu cấu hình vào file
     void saveConfig() {
         json j;
         j["emailSuffix"] = emailSuffix;
         j["phoneRegex"] = phoneRegex;
+        j["deleteTimeLimit"] = deleteTimeLimit_;
         std::ofstream file(configFilename);
         if (file.is_open()) {
             file << std::setw(4) << j << std::endl;
@@ -67,6 +75,7 @@ private:
     ConfigManager(const ConfigManager&) = delete;
     ConfigManager& operator=(const ConfigManager&) = delete;
 
+    int deleteTimeLimit_ = 1;
     std::string emailSuffix;
     std::string phoneRegex;
     std::string configFilename;

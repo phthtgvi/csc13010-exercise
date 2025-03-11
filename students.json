@@ -10,7 +10,8 @@
         "name": "Nguyen Van A",
         "phone": "0909555111",
         "program": "Formal Program",
-        "status": "Active"
+        "status": "Active",
+        "creationTime": "2023-04-01T10:00:00Z"
     },
     {
         "address": "Ho Chi Minh",
@@ -23,7 +24,8 @@
         "name": "Tran Thi C",
         "phone": "0909444888",
         "program": "Formal Program",
-        "status": "Active"
+        "status": "Active",
+        "creationTime": "2023-04-01T10:05:00Z"
     },
     {
         "address": "Da Nang",
@@ -36,7 +38,8 @@
         "name": "Tran Van A",
         "phone": "0891111222",
         "program": "Advanced Program",
-        "status": "Active"
+        "status": "Active",
+        "creationTime": "2023-04-01T10:10:00Z"
     },
     {
         "address": "Ho Chi Minh",
@@ -49,7 +52,8 @@
         "name": "Tran Thi C",
         "phone": "0909444888",
         "program": "Formal Program",
-        "status": "Active"
+        "status": "Active",
+        "creationTime": "2023-04-01T10:15:00Z"
     },
     {
         "address": "Da Nang",
@@ -62,7 +66,8 @@
         "name": "Tran Van A",
         "phone": "0891111222",
         "program": "Advanced Program",
-        "status": "Active"
+        "status": "Active",
+        "creationTime": "2023-04-01T10:20:00Z"
     },
     {
         "address": "Da Nang",
@@ -75,19 +80,7 @@
         "name": "Do Van G",
         "phone": "0909555777",
         "program": "Advanced Program",
-        "status": "Graduated"
-    },
-    {
-        "address": "Da Nang",
-        "course": "2022",
-        "dob": "18/08/2004",
-        "email": "22127008@student.university.edu.vn",
-        "faculty": "FJPN",
-        "gender": "Male",
-        "id": "22127008",
-        "name": "Nguyen Van H",
-        "phone": "+84909333444",
-        "program": "Advanced Program",
-        "status": "Graduated"
+        "status": "Graduated",
+        "creationTime": "2023-04-01T10:25:00Z"
     }
 ]

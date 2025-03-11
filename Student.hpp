@@ -7,16 +7,34 @@
 // Forward declaration
 class Student;
 
+std::string timePointToISO8601(const std::chrono::system_clock::time_point& tp) {
+    std::time_t time = std::chrono::system_clock::to_time_t(tp);
+    std::tm tm = *std::gmtime(&time);
+    std::stringstream ss;
+    ss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
+    return ss.str();
+}
+
+// Chuyển chuỗi ISO 8601 (UTC) thành time_point
+std::chrono::system_clock::time_point iso8601ToTimePoint(const std::string &s) {
+    std::tm tm = {};
+    std::istringstream iss(s);
+    iss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
+    // Sử dụng timegm để chuyển std::tm theo UTC thành time_t
+    std::time_t time = timegm(&tm);
+    return std::chrono::system_clock::from_time_t(time);
+}
+
 // Lớp cơ sở cho Sinh viên
 class Student {
 public:
     // Constructor
     Student(std::string id, std::string name, std::string dob, std::string gender,
             std::string faculty, std::string course, std::string program, std::string address,
-            std::string email, std::string phone, std::string status) :
-        id_(id), name_(name), dob_(dob), gender_(gender), faculty_(faculty),
+            std::string email, std::string phone, std::string status)
+      : id_(id), name_(name), dob_(dob), gender_(gender), faculty_(faculty),
         course_(course), program_(program), address_(address), email_(email),
-        phone_(phone), status_(status) {}
+        phone_(phone), status_(status), creationTime_(std::chrono::system_clock::now()) {}
 
     // Phương thức ảo để hiển thị thông tin sinh viên (cho mục đích kế thừa)
     virtual void displayInfo() const {
@@ -45,6 +63,7 @@ public:
     std::string getPhone() const { return phone_; }
     std::string getStatus() const { return status_; }
     std::string getFaculty() const { return faculty_; }
+    std::chrono::system_clock::time_point getCreationTime() const { return creationTime_; }
 
     // Setter methods
     void setId(const std::string& id) { id_ = id; }
@@ -58,6 +77,7 @@ public:
     void setEmail(const std::string& email) { email_ = email; }
     void setPhone(const std::string& phone) { phone_ = phone; }
     void setStatus(const std::string& status) { status_ = status; }
+    void setCreationTime(const std::chrono::system_clock::time_point& t) { creationTime_ = t; }
 
     // Method to serialize Student object to JSON
     json toJson() const {
@@ -72,13 +92,15 @@ public:
             {"address", address_},
             {"email", email_},
             {"phone", phone_},
-            {"status", status_}
+            {"status", status_},
+            {"creationTime", timePointToISO8601(creationTime_)},
         };
     }
 
     // Static method to create Student object from JSON
     static Student fromJson(const json& j) {
-        return Student(
+        // Tạo đối tượng sinh viên ban đầu (không truyền creationTime vào constructor)
+        Student s(
             j["id"].get<std::string>(),
             j["name"].get<std::string>(),
             j["dob"].get<std::string>(),
@@ -91,6 +113,9 @@ public:
             j["phone"].get<std::string>(),
             j["status"].get<std::string>()
         );
+        // Cập nhật trường creationTime từ chuỗi ISO 8601
+        s.setCreationTime(iso8601ToTimePoint(j["creationTime"].get<std::string>()));
+        return s;
     }
 
 private:
@@ -105,6 +130,7 @@ private:
     std::string email_;
     std::string phone_;
     std::string status_;
+    std::chrono::system_clock::time_point creationTime_;
 };
 
 // Interface cho việc xác thực dữ liệu sinh viên
@@ -136,47 +162,56 @@ public:
 
     void addStudent(const Student& student) {
         // Kiểm tra xem MSSV đã tồn tại hay chưa
-
         for (const auto& existingStudent : students_) {
             if (existingStudent.getId() == student.getId()) {
                 std::cout << "Lỗi: MSSV " << student.getId() << " đã tồn tại!\n";
-                Logger::getInstance().log("Failed to add student - ID already exists: " + student.getId()); // Log lỗi
+                Logger::getInstance().log("Failed to add student - ID already exists: " + student.getId());
                 return;
             }
         }
-
 
         if (validator_ == nullptr) {
             std::cerr << "Validator chưa được thiết lập!\n";
             return;
         }
 
-
         if (validator_->isValid(student)) {
-            students_.push_back(student);
+            // Tạo bản sao của sinh viên để cập nhật thời gian tạo
+            Student newStudent = student;
+            newStudent.setCreationTime(std::chrono::system_clock::now()); // Cập nhật thời gian tạo
 
+            students_.push_back(newStudent);
             saveStudentDataToFile();
             std::cout << "Đã thêm sinh viên thành công.\n";
-            Logger::getInstance().log("Added student with ID: " + student.getId()); // Log thành công
+            Logger::getInstance().log("Added student with ID: " + student.getId());
         } else {
             std::cout << "Không thể thêm sinh viên do thông tin không hợp lệ.\n";
-            Logger::getInstance().log("Failed to add student due to invalid information."); // Log lỗi
+            Logger::getInstance().log("Failed to add student due to invalid information.");
         }
     }
 
-    void removeStudent(const std::string& id) {
-        auto it = std::remove_if(students_.begin(), students_.end(),
-            [&](const Student& s) { return s.getId() == id; });
 
+    bool removeStudent(const std::string& id) {
+        auto it = std::find_if(students_.begin(), students_.end(),
+                               [&](const Student& s) { return s.getId() == id; });
         if (it != students_.end()) {
-            students_.erase(it, students_.end());
+            // Lấy thời gian hiện tại
+            auto now = std::chrono::system_clock::now();
+            auto diff = std::chrono::duration_cast<std::chrono::minutes>(now - it->getCreationTime());
+            int allowed = ConfigManager::getInstance().getDeleteTimeLimit();
+            if (diff.count() > allowed) {
+                std::cout << "Không được phép xóa sinh viên sau " << allowed << " phút kể từ thời điểm tạo.\n";
+                return false;
+            }
+            // Nếu hợp lệ, xóa sinh viên
+            students_.erase(it);
             saveStudentDataToFile();
             std::cout << "Đã xóa sinh viên thành công.\n";
-            Logger::getInstance().log("Removed student with ID: " + id); // Log the action
-        }
-        else {
-            std::cout << "Không tìm thấy sinh viên với ID này.\n";
-            Logger::getInstance().log("Attempted to remove student with ID: " + id + " but not found."); // Log the action
+            Logger::getInstance().log("Removed student with ID: " + id);
+            return true;
+        } else {
+            std::cout << "Không tìm thấy sinh viên với MSSV này.\n";
+            return false;
         }
     }
 
