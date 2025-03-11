@@ -8,7 +8,6 @@
 #include <iomanip>
 #include <limits>
 #include <cassert>
-#include <iostream>
 #include <cstdio>
 
 #include "nlohmann/json.hpp"
@@ -18,8 +17,65 @@
 #include "ConfigManager.hpp"
 #include "StatusRulesManager.hpp"
 #include "UnitTest.hpp"
+#include "CertificateGenerator.hpp"
 
 using json = nlohmann::json;
+
+// Hàm dịch trạng thái sinh viên từ tiếng Anh sang tiếng Việt
+std::string translateStatus(const std::string &status) {
+    if (status == "Active") {
+        return "Đang theo học";
+    } else if (status == "Graduated") {
+        return "Đã tốt nghiệp";
+    } else if (status == "Leave") {
+        return "Bảo lưu";
+    } else if (status == "Absent") {
+        return "Vắng mặt";
+    } else if (status == "Post-graduated") {
+        return "Sau tốt nghiệp";
+    } else {
+        return status; // Nếu không khớp, trả về giá trị ban đầu
+    }
+}
+
+// Hàm hỗ trợ người dùng chọn mục đích xác nhận
+std::string chooseCertificatePurpose() {
+    std::cout << "\nChọn mục đích xác nhận:\n";
+    std::cout << "1. Xác nhận đang học để vay vốn ngân hàng\n";
+    std::cout << "2. Xác nhận làm thủ tục tạm hoãn nghĩa vụ quân sự\n";
+    std::cout << "3. Xác nhận làm hồ sơ xin việc / thực tập\n";
+    std::cout << "4. Xác nhận lý do khác\n";
+    std::cout << "Nhập lựa chọn (1-4): ";
+
+    int choice;
+    std::cin >> choice;
+    std::cin.ignore(); // xóa ký tự newline
+
+    std::string purpose;
+    switch (choice) {
+        case 1:
+            purpose = "Xác nhận đang học để vay vốn ngân hàng";
+            break;
+        case 2:
+            purpose = "Xác nhận làm thủ tục tạm hoãn nghĩa vụ quân sự";
+            break;
+        case 3:
+            purpose = "Xác nhận làm hồ sơ xin việc / thực tập";
+            break;
+        case 4:
+        {
+            std::cout << "Nhập lý do khác: ";
+            std::getline(std::cin, purpose);
+            purpose = " Xác nhận lý do khác - " + purpose;
+            break;
+        }
+        default:
+            std::cout << "Lựa chọn không hợp lệ. Mặc định: Xác nhận đang học để vay vốn ngân hàng.\n";
+            purpose = "Xác nhận đang học để vay vốn ngân hàng";
+            break;
+    }
+    return purpose;
+}
 
 Student getStudentInfoFromUser() {
     std::string id, name, dob, gender, faculty, course, program, address, email, phone, status;
@@ -173,7 +229,7 @@ int main() {
     auto [version, buildDate] = getVersionInfo("version_info.json");
     std::cout << "-------------------------" << std::endl;
     std::cout << "Ho Chi Minh City University of Science" << std::endl;
-    std::cout << "Student Management System" << version << std::endl;
+    std::cout << "Student Management System " << version << std::endl;
     std::cout << "Application Version: " << version << std::endl;
     std::cout << "Build Date: " << buildDate << std::endl;
     std::cout << "-------------------------" << std::endl;
@@ -186,7 +242,7 @@ int main() {
     repo.setValidator(validator);
     RecordIO recordIO;
 
-  try {
+    try {
         Test::testStudentSerialization();
         Test::testStudentRepository();
         Test::testRecordIO_CSV();
@@ -222,7 +278,7 @@ int main() {
         std::cout << "12. Quản lý Chương trình" << std::endl;
         std::cout << "13. Cấu hình định dạng Email & Số điện thoại" << std::endl;
         std::cout << "14. Cấu hình quy luật chuyển đổi Status" << std::endl;
-
+        std::cout << "15. Xuất giấy xác nhận tình trạng sinh viên" << std::endl;
         std::cout << "0. Thoát" << std::endl;
         std::cout << "Nhập lựa chọn của bạn: ";
         std::cin >> choice;
@@ -241,7 +297,6 @@ int main() {
                 repo.removeStudent(id);
                 break;
             }
-
             case 3: {
                 std::string id;
                 std::cout << "Nhập MSSV của sinh viên cần cập nhật: ";
@@ -261,7 +316,6 @@ int main() {
                 }
                 break;
             }
-
             case 4: {
                 std::string keyword;
                 std::cout << "Nhập từ khóa tìm kiếm (Họ tên hoặc MSSV): ";
@@ -278,7 +332,6 @@ int main() {
                 }
                 break;
             }
-
             case 5: {
                 std::string filename;
                 std::cout << "Nhập tên file CSV để nhập: ";
@@ -287,7 +340,6 @@ int main() {
                 repo.importStudentsFromStrings(importedData);
                 break;
             }
-
             case 6: {
                 std::string filename;
                 std::cout << "Nhập tên file CSV để xuất: ";
@@ -296,7 +348,6 @@ int main() {
                 recordIO.exportToCSV(filename, allStudents);
                 break;
             }
-
             case 7: {
                 std::string filename;
                 std::cout << "Nhập tên file JSON để nhập: ";
@@ -331,7 +382,7 @@ int main() {
                 }
                 break;
             }
-           case 10: { // Faculty Management
+            case 10: { // Faculty Management
                 int facultyChoice;
                 std::cout << "\n--- Quản lý Khoa ---" << std::endl;
                 std::cout << "1. Thêm Khoa" << std::endl;
@@ -422,6 +473,98 @@ int main() {
 
                 StatusRulesManager::getInstance().setAllowedTransitions(currentStatus, allowed);
                 StatusRulesManager::getInstance().saveRules();
+                break;
+            }
+            case 15: {
+                std::string studentID;
+                std::cout << "Nhập MSSV: ";
+                std::getline(std::cin, studentID);
+
+                // Mở file JSON (database) chứa dữ liệu sinh viên
+                std::ifstream inFile("students.json");
+                if (!inFile.is_open()) {
+                    std::cerr << "Error: Không thể mở file database (students.json).\n";
+                    return 1;
+                }
+
+                json db;
+                try {
+                    inFile >> db;
+                } catch (const json::exception &e) {
+                    std::cerr << "Error parsing JSON: " << e.what() << "\n";
+                    return 1;
+                }
+                inFile.close();
+
+                // Tìm sinh viên theo MSSV
+                bool found = false;
+                CertificateData cert;
+                for (const auto &record : db) {
+                    if (record.contains("id") && record["id"].get<std::string>() == studentID) {
+                        found = true;
+                        // Lấy thông tin sinh viên từ record JSON
+                        cert.studentID       = record["id"].get<std::string>();
+                        cert.studentName     = record["name"].get<std::string>();
+                        cert.studentDOB      = record["dob"].get<std::string>();
+                        cert.studentGender   = record["gender"].get<std::string>();
+                        cert.studentFaculty  = record["faculty"].get<std::string>();
+                        cert.studentProgram  = record["program"].get<std::string>();
+                        cert.studentCourse   = record["course"].get<std::string>();
+                        // Nếu record có trường "status", chuyển đổi sang tiếng Việt
+                        if (record.contains("status"))
+                            cert.studentStatus = translateStatus(record["status"].get<std::string>());
+                        else
+                            cert.studentStatus = "Không xác định";
+
+                        // Thông tin trường (có thể thay đổi theo cấu hình)
+                        cert.schoolName      = "KHOA HỌC TỰ NHIÊN";
+                        cert.schoolAddress   = "227 NGUYỄN VĂN CỪ, PHƯỜNG 4, QUẬN 5 TP.HCM";
+                        cert.schoolPhone     = "(028) 38353448";
+                        cert.schoolEmail     = "contact@hcmus.edu.vn";
+
+                        // Lấy mục đích xác nhận thông qua hàm giao diện
+                        cert.confirmationPurpose = chooseCertificatePurpose();
+                        std::cout << "Nhập ngày hiệu lực (DD/MM/YYYY): ";
+                        std::getline(std::cin, cert.effectiveDate);
+                        std::cout << "Nhập ngày cấp (DD/MM/YYYY): ";
+                        std::getline(std::cin, cert.issueDate);
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    std::cerr << "Không tìm thấy sinh viên có MSSV: " << studentID << "\n";
+                    return 1;
+                }
+
+                // Hỏi người dùng chọn định dạng xuất giấy xác nhận
+                int formatChoice = 0;
+                std::cout << "\nChọn định dạng xuất giấy xác nhận:\n";
+                std::cout << "1. Markdown (certificate.md)\n";
+                std::cout << "2. DOCX (certificate.docx)\n";
+                std::cout << "Nhập lựa chọn của bạn: ";
+                std::cin >> formatChoice;
+                std::cin.ignore(); // xóa newline
+
+                CertificateFormat format;
+                std::string outputFile;
+                if (formatChoice == 1) {
+                    format = CertificateFormat::PDF;  // Trong ví dụ này, PDF được map tới Markdown generator.
+                    outputFile = "outputs/certificate.md";
+                } else if (formatChoice == 2) {
+                    format = CertificateFormat::DOCX;
+                    outputFile = "outputs/certificate.docx";
+                } else {
+                    std::cerr << "Lựa chọn không hợp lệ.\n";
+                    return 1;
+                }
+
+                // Tạo giấy xác nhận
+                if (generateCertificate(cert, outputFile, format)) {
+                    std::cout << "Giấy xác nhận đã được tạo thành công: " << outputFile << "\n";
+                } else {
+                    std::cerr << "Tạo giấy xác nhận thất bại.\n";
+                }
                 break;
             }
             case 0:
