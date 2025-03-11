@@ -33,3 +33,7 @@
 *.app
 .idea
 cmake-build-debug
+bin/Debug/sis
+*.cbp
+*.depend
+*.layout
