@@ -503,3 +503,9 @@
 2025-03-11 19:58:24: Failed to add student - ID already exists: SV001
 2025-03-11 19:58:24: Saved student data to file.
 2025-03-11 19:58:24: Removed student with ID: SV001
+2025-03-11 20:01:41: Loaded student data from file.
+2025-03-11 20:01:41: Saved student data to file.
+2025-03-11 20:01:41: Added student with ID: SV001
+2025-03-11 20:01:41: Failed to add student - ID already exists: SV001
+2025-03-11 20:01:41: Saved student data to file.
+2025-03-11 20:01:41: Removed student with ID: SV001

@@ -29,7 +29,7 @@ struct CertificateData {
 
 // Enum để chọn định dạng file xuất
 enum class CertificateFormat {
-    PDF,
+    MD,
     DOCX
 };
 

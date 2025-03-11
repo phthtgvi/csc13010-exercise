@@ -549,7 +549,7 @@ int main() {
                 CertificateFormat format;
                 std::string outputFile;
                 if (formatChoice == 1) {
-                    format = CertificateFormat::PDF;  // Trong ví dụ này, PDF được map tới Markdown generator.
+                    format = CertificateFormat::MD;
                     outputFile = "outputs/certificate.md";
                 } else if (formatChoice == 2) {
                     format = CertificateFormat::DOCX;

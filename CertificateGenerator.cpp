@@ -3,9 +3,6 @@
 #include <iostream>
 #include <sstream>
 
-// DÙNG THƯ VIỆN LIBHARU CHO PHẦN PDF
-#include "hpdf.h"
-
 // Function to generate certificate in Markdown format
 bool generateCertificateMarkdown(const CertificateData &data, const std::string &outputFile) {
     std::ofstream out(outputFile);
@@ -98,7 +95,7 @@ bool generateCertificateDOCX(const CertificateData &data, const std::string &out
 
 // Hàm tổng hợp để tạo giấy xác nhận theo định dạng đã chọn
 bool generateCertificate(const CertificateData &data, const std::string &outputFile, CertificateFormat format) {
-    if (format == CertificateFormat::PDF) {
+    if (format == CertificateFormat::MD) {
         return generateCertificateMarkdown(data, outputFile);
     } else if (format == CertificateFormat::DOCX) {
         return generateCertificateDOCX(data, outputFile);
