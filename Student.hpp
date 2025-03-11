@@ -160,6 +160,64 @@ public:
         return input;
     }
 
+    bool deleteFaculty(const std::string &faculty) {
+    // Kiểm tra xem có sinh viên nào thuộc khoa này không
+        for (const auto &student : students_) {
+            if (student.getFaculty() == faculty) {
+                std::cout << "Không thể xóa khoa '" << faculty << "' vì có sinh viên được gán vào khoa này.\n";
+                return false;
+            }
+        }
+        // Nếu không có sinh viên nào thuộc khoa này, tiến hành xóa khỏi danh sách khoa
+        auto it = std::remove(faculties_.begin(), faculties_.end(), faculty);
+        if (it != faculties_.end()) {
+            faculties_.erase(it, faculties_.end());
+            saveDataToFile(facultyFilename_, faculties_);
+            std::cout << "Đã xóa khoa: " << faculty << "\n";
+            return true;
+        }
+        std::cout << "Không tìm thấy khoa '" << faculty << "'.\n";
+        return false;
+    }
+
+    // Xóa tình trạng nếu không có sinh viên nào sử dụng tình trạng đó.
+    bool deleteStatus(const std::string &status) {
+        for (const auto &student : students_) {
+            if (student.getStatus() == status) {
+                std::cout << "Không thể xóa tình trạng '" << status << "' vì có sinh viên được gán vào tình trạng này.\n";
+                return false;
+            }
+        }
+        auto it = std::remove(statuses_.begin(), statuses_.end(), status);
+        if (it != statuses_.end()) {
+            statuses_.erase(it, statuses_.end());
+            saveDataToFile(statusFilename_, statuses_);
+            std::cout << "Đã xóa tình trạng: " << status << "\n";
+            return true;
+        }
+        std::cout << "Không tìm thấy tình trạng '" << status << "'.\n";
+        return false;
+    }
+
+    // Xóa chương trình đào tạo nếu không có sinh viên nào được gán vào chương trình đó.
+    bool deleteProgram(const std::string &program) {
+        for (const auto &student : students_) {
+            if (student.getProgram() == program) {
+                std::cout << "Không thể xóa chương trình '" << program << "' vì có sinh viên được gán vào chương trình này.\n";
+                return false;
+            }
+        }
+        auto it = std::remove(programs_.begin(), programs_.end(), program);
+        if (it != programs_.end()) {
+            programs_.erase(it, programs_.end());
+            saveDataToFile(programFilename_, programs_);
+            std::cout << "Đã xóa chương trình: " << program << "\n";
+            return true;
+        }
+        std::cout << "Không tìm thấy chương trình '" << program << "'.\n";
+        return false;
+    }
+
     void addStudent(const Student& student) {
         // Kiểm tra xem MSSV đã tồn tại hay chưa
         for (const auto& existingStudent : students_) {

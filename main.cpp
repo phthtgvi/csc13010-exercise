@@ -285,6 +285,9 @@ int main() {
         std::cout << "14. Cấu hình quy luật chuyển đổi Status" << std::endl;
         std::cout << "15. Xuất giấy xác nhận tình trạng sinh viên" << std::endl;
         std::cout << "16. Cấu hình thời gian xóa sinh viên" << std::endl;
+        std::cout << "17. Xóa Khoa" << std::endl;
+        std::cout << "18. Xóa Tình trạng" << std::endl;
+        std::cout << "19. Xóa Chương trình đào tạo" << std::endl;
         std::cout << "0. Thoát" << std::endl;
         std::cout << "Nhập lựa chọn của bạn: ";
         std::cin >> choice;
@@ -582,6 +585,34 @@ int main() {
                     std::cout << "Cấu hình thời gian xóa đã được cập nhật thành: " << threshold << " phút.\n";
                 } catch (std::exception &e) {
                     std::cout << "Lỗi nhập số: " << e.what() << "\n";
+                }
+                break;
+            }
+
+            case 17: { // Xóa khoa
+                std::string faculty = repo.getSafeInput("Nhập tên khoa cần xóa: ");
+                if (repo.deleteFaculty(faculty)) {
+                    std::cout << "Xóa khoa thành công.\n";
+                } else {
+                    std::cout << "Xóa khoa thất bại. Có thể khoa này đang được sử dụng bởi sinh viên nào đó.\n";
+                }
+                break;
+            }
+            case 18: { // Xóa tình trạng sinh viên
+                std::string status = repo.getSafeInput("Nhập tên tình trạng cần xóa: ");
+                if (repo.deleteStatus(status)) {
+                    std::cout << "Xóa tình trạng thành công.\n";
+                } else {
+                    std::cout << "Xóa tình trạng thất bại. Có thể tình trạng này đang được sử dụng bởi sinh viên nào đó.\n";
+                }
+                break;
+            }
+            case 19: { // Xóa chương trình đào tạo
+                std::string program = repo.getSafeInput("Nhập tên chương trình cần xóa: ");
+                if (repo.deleteProgram(program)) {
+                    std::cout << "Xóa chương trình đào tạo thành công.\n";
+                } else {
+                    std::cout << "Xóa chương trình đào tạo thất bại. Có thể chương trình này đang được sử dụng bởi sinh viên nào đó.\n";
                 }
                 break;
             }
