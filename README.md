@@ -38,14 +38,31 @@ The Student Management System provides the following functionalities:
 All student data is stored in a JSON file (`students.json`) for persistence. The system performs data validation on email, phone number, faculty, and student status.
 
 ### v3.0
+
 - **Unique Student ID**: Ensures that each Student ID (MSSV) is unique. When adding or updating student records, duplicate Student IDs are not allowed.
 
 - **Configurable Email Domain**: The system enforces email validation based on a specific domain, which can be configured dynamically.
-Example: Only accepts emails ending with @student.university.edu.vn.
+  Example: Only accepts emails ending with @student.university.edu.vn.
 - **Phone Number Validation by Country**: Validates phone numbers based on country-specific formats, which are configurable. Example: Vietnam phone numbers must start with +84 or 0[3|5|7|8|9]xxxxxxxx.
 - **Restricted Student Status Transitions**: Student status can only be changed following predefined rules, which are configurable. Example: "Đang học" → "Bảo lưu", "Tốt nghiệp", "Đình chỉ" (valid transitions). "Đã tốt nghiệp" cannot be reverted to "Đang học".
 
 All these enhancements ensure data integrity and improve system configurability while maintaining the JSON-based storage approach.
+
+### v4.0
+
+- **University branding:** Display university headlines at the top of CLI.
+- **Configurable time policy for deleting after account creation:** Add a new option in menu options to specify the time policy for deleting after account creation.
+
+- **Enable/Disable university settings:** Add an option to specify whether the university settings are enabled or disabled.
+
+- **Allow to delete attributes (Faculty, Program, Status) in case of no accounts are associated with that attribute:** Allow to delete attributes in case of no accounts are associated with that attribute.
+
+- **Student certificate generation:** Add an option to generate a certificate for the student for the purpose of job, postgraduate with full information of the student and the university in Markdown/DOCX.
+
+- **Unit testing:** Refer to **Unit testing** and [Testing documentation](./docs/testing/).
+
+- **Refactor code:** Refer to **Refactoring guidelines** and [Refactoring documentation](./docs/refactoring/).
+
 ## Source Code Structure
 
 The source code is structured as follows:
@@ -60,6 +77,7 @@ The source code is structured as follows:
 - `ConfigManager.hpp`: Manages system configuration, including valid email suffixes and phone number regex patterns. The configuration is stored and loaded from the `config.json` file.
 - `RecordIO.hpp`: Provides functions for exporting and importing data in CSV and JSON formats, enabling easy storage and retrieval of student information from files.
 - `StatusRulesManager.hpp`: Manages student status transition rules, such as from "Active" to "Graduated." These rules are stored and loaded from the `status_rules.json` file.
+- `CertificateGenerator.hpp/CertificateGenerator.cpp`: provide the core functionality for generating certificate documents for students. These files define a set of functions that take a structured data object (typically a CertificateData structure containing information such as student details, university details, and certificate-specific fields) and produce a formatted certificate output in Markdown or Docx.
 
 The application enforces the following validation rules:
 
