@@ -1,5 +1,6 @@
 {
     "deleteTimeLimit": 2,
     "emailSuffix": "@student.university.edu.vn",
+    "enforceValidation": true,
     "phoneRegex": "+84"
 }

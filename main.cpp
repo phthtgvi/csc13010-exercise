@@ -267,6 +267,7 @@ int main() {
 
     int choice;
     do {
+        repo.loadStudentDataFromFile();
         repo.displayAllStudents();
         std::cout << "\n--- MENU ---" << std::endl;
         std::cout << "1. Thêm sinh viên" << std::endl;
@@ -288,6 +289,7 @@ int main() {
         std::cout << "17. Xóa Khoa" << std::endl;
         std::cout << "18. Xóa Tình trạng" << std::endl;
         std::cout << "19. Xóa Chương trình đào tạo" << std::endl;
+        std::cout << "20. Bật/Tắt quy định" << std::endl;
         std::cout << "0. Thoát" << std::endl;
         std::cout << "Nhập lựa chọn của bạn: ";
         std::cin >> choice;
@@ -315,7 +317,6 @@ int main() {
                 if (student) {
                     if (getUpdatedStudentInfoFromUser(student, validator)) {
                         repo.saveStudentDataToFile();
-                        repo.displayAllStudents();
                         std::cout << "Thông tin sinh viên đã được cập nhật.\n";
                     } else {
                         std::cout << "Cập nhật thông tin sinh viên bị hủy bỏ do không hợp lệ.\n";
@@ -614,6 +615,30 @@ int main() {
                 } else {
                     std::cout << "Xóa chương trình đào tạo thất bại. Có thể chương trình này đang được sử dụng bởi sinh viên nào đó.\n";
                 }
+                break;
+            }
+            case 20: { // Bật/Tắt cả quy định: định dạng email & số điện thoại và thời gian xóa sinh viên
+                std::string choice;
+                // Hiển thị trạng thái hiện tại dựa vào việc cả hai cờ đều bật hay không
+                bool currentState = ConfigManager::getInstance().getEnforceValidation();
+                std::cout << "Hiện tại, các quy định đang " << (currentState ? "BẬT" : "TẮT") << ".\n";
+                std::cout << "Nhập 'on' để bật, 'off' để tắt tất cả hoặc nhập 'exit' để thoát: ";
+                std::getline(std::cin, choice);
+                bool flag;
+                if (choice == "exit" || choice == "EXIT") {
+                    break;
+                }
+                if (choice == "on" || choice == "ON") {
+                    flag = true;
+                } else if (choice == "off" || choice == "OFF") {
+                    flag = false;
+                } else {
+                    std::cout << "Lựa chọn không hợp lệ.\n";
+                    break;
+                }
+                ConfigManager::getInstance().setEnforceValidation(flag);
+                ConfigManager::getInstance().saveConfig();
+                std::cout << "Các quy định hiện tại: " << (flag ? "BẬT" : "TẮT") << ".\n";
                 break;
             }
             case 0:

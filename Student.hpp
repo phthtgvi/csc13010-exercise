@@ -254,12 +254,14 @@ public:
                                [&](const Student& s) { return s.getId() == id; });
         if (it != students_.end()) {
             // Lấy thời gian hiện tại
-            auto now = std::chrono::system_clock::now();
-            auto diff = std::chrono::duration_cast<std::chrono::minutes>(now - it->getCreationTime());
-            int allowed = ConfigManager::getInstance().getDeleteTimeLimit();
-            if (diff.count() > allowed) {
-                std::cout << "Không được phép xóa sinh viên sau " << allowed << " phút kể từ thời điểm tạo.\n";
-                return false;
+            if (ConfigManager::getInstance().getEnforceValidation()) {
+                auto now = std::chrono::system_clock::now();
+                auto diff = std::chrono::duration_cast<std::chrono::minutes>(now - it->getCreationTime());
+                int allowed = ConfigManager::getInstance().getDeleteTimeLimit();
+                if (diff.count() > allowed) {
+                    std::cout << "Không được phép xóa sinh viên sau " << allowed << " phút kể từ thời điểm tạo.\n";
+                    return false;
+                }
             }
             // Nếu hợp lệ, xóa sinh viên
             students_.erase(it);
@@ -359,6 +361,7 @@ public:
 
     void loadStudentDataFromFile() {
         std::ifstream file(studentFilename_);
+        students_.clear();
         if (file.is_open()) {
             json j;
             file >> j;
@@ -599,14 +602,17 @@ public:
     ConcreteStudentValidator(class StudentRepository* repo) : repo_(repo) {}
 
     bool isValid(const Student& student) override {
-        if (!isValidEmail(student.getEmail())) {
-            std::cout << "Email không hợp lệ.\n";
-            return false;
+        if (ConfigManager::getInstance().getEnforceValidation()) {
+            if (!isValidEmail(student.getEmail())) {
+                std::cout << "Email không hợp lệ.\n";
+                return false;
+            }
+            if (!isValidPhone(student.getPhone())) {
+                std::cout << "Số điện thoại không hợp lệ.\n";
+                return false;
+            }
         }
-        if (!isValidPhone(student.getPhone())) {
-            std::cout << "Số điện thoại không hợp lệ.\n";
-            return false;
-        }
+
         if (!repo_->isValidFaculty(student.getFaculty())) {
             std::cout << "Khoa không hợp lệ.\n";
             return false;

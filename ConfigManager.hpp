@@ -34,6 +34,7 @@ public:
                 emailSuffix = j.value("emailSuffix", emailSuffix);
                 phoneRegex = j.value("phoneRegex", phoneRegex);
                 deleteTimeLimit_ = j.value("deleteTimeLimit", deleteTimeLimit_);
+                enforceValidation_ = j.value("enforceValidation", enforceValidation_);
             } catch (const json::exception& e) {
                 std::cerr << "Lỗi khi parse config: " << e.what() << std::endl;
             }
@@ -45,11 +46,12 @@ public:
 
 
     // Lưu cấu hình vào file
-    void saveConfig() {
+   void saveConfig() {
         json j;
         j["emailSuffix"] = emailSuffix;
         j["phoneRegex"] = phoneRegex;
         j["deleteTimeLimit"] = deleteTimeLimit_;
+        j["enforceValidation"] = enforceValidation_;
         std::ofstream file(configFilename);
         if (file.is_open()) {
             file << std::setw(4) << j << std::endl;
@@ -60,10 +62,12 @@ public:
         }
     }
 
+
     // Setters & Getters
     void setEmailSuffix(const std::string& suffix) { emailSuffix = suffix; }
     void setPhoneRegex(const std::string& regex) { phoneRegex = regex; }
-
+    void setEnforceValidation(bool flag) { enforceValidation_ = flag; }
+    bool getEnforceValidation() const { return enforceValidation_; }
     std::string getEmailSuffix() const { return emailSuffix; }
     std::string getPhoneRegex() const { return phoneRegex; }
 
@@ -79,6 +83,7 @@ private:
     std::string emailSuffix;
     std::string phoneRegex;
     std::string configFilename;
+    bool enforceValidation_ = true;
 };
 
 #endif // CONFIG_MANAGER_HPP_
