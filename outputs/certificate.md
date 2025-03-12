@@ -11,13 +11,13 @@
 Trường Đại học KHOA HỌC TỰ NHIÊN xác nhận:
 
 ## 1. Thông tin sinh viên:
-- **Họ và tên:** Nguyen Van H
-- **Mã số sinh viên:** 22127008
-- **Ngày sinh:** 18/08/2004
+- **Họ và tên:** Do Van G
+- **Mã số sinh viên:** 21127005
+- **Ngày sinh:** 13/03/2003
 - **Giới tính:** Male
-- **Khoa:** FJPN
+- **Khoa:** FBE
 - **Chương trình đào tạo:** Advanced Program
-- **Khóa:** 2022
+- **Khóa:** 2021
 - **Tình trạng:** Đã tốt nghiệp
 
 ## 3. Mục đích xác nhận:

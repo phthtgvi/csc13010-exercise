@@ -269,6 +269,34 @@ To run the compiled program:
 
 ![ex-screenshot](screenshots/screen22.png)
 
+### v4.0
+
+#### University branding
+
+![ex-screenshot](screenshots/screen23.png)
+
+#### Configurable time policy for deleting after account creation
+
+![ex-screenshot](screenshots/screen24.png)
+
+![ex-screenshot](screenshots/screen25.png)
+
+#### Enable/Disable university settings
+
+![ex-screenshot](screenshots/screen26.png)
+
+#### Allow to delete attributes (Faculty, Program, Status) in case of no accounts are associated with that attribute
+
+![ex-screenshot](screenshots/screen27.png)
+
+![ex-screenshot](screenshots/screen28.png)
+
+#### Student certificate generation
+
+![ex-screenshot](screenshots/screen29.png)
+
+![ex-screenshot](screenshots/screen30.png)
+
 ## Convention
 
 The coding style is followed to the C++ coding standards. Use meaningful variable names, provide comments where necessary, and ensure the code is well-formatted.
